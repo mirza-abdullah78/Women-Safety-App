@@ -131,7 +131,7 @@ Future<String?> loadAssets(BuildContext context, User currentUser) async {
 loadAssetsWeb() async {
   Uint8List? bytesFromPicker;
   try {
-    // 
+    // comment for web
     // bytesFromPicker = await ImagePickerWeb.getImageAsBytes();
   } catch (e, s) {
     print(e);
