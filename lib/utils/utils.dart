@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:image_picker_web/image_picker_web.dart';
+//Comment for web
+// import 'package:image_picker_web/image_picker_web.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:women_safety_app/models/user.dart';
 import 'package:women_safety_app/utils/globals.dart';
@@ -130,6 +131,7 @@ Future<String?> loadAssets(BuildContext context, User currentUser) async {
 loadAssetsWeb() async {
   Uint8List? bytesFromPicker;
   try {
+    // 
     // bytesFromPicker = await ImagePickerWeb.getImageAsBytes();
   } catch (e, s) {
     print(e);

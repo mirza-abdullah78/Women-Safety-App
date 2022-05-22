@@ -681,7 +681,7 @@ class _DashboardPageState extends State<DashboardPage> with RouteAware {
                 ),
               ),
             );
-          } else {
+          } else if(snapshot.hasError) {
             return Scaffold(
               body: Center(
                 child: Column(
@@ -695,6 +695,25 @@ class _DashboardPageState extends State<DashboardPage> with RouteAware {
                     Text('Error loading user')
                   ],
                 ),
+              ),
+            );
+          } else {
+            return Scaffold(
+              body: LayoutBuilder(
+                builder: (context,constraints) {
+                  return SizedBox(
+                    height: constraints.maxHeight,
+                    child: Center(
+                      child: Column(
+                        children: const [
+                          CircularProgressIndicator(
+                            color: AppColors.primaryColor,
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }
               ),
             );
           }
