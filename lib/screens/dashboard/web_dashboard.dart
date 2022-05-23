@@ -41,6 +41,7 @@ class _WebDashboardState extends State<WebDashboard> {
           if (snapshot.hasData) {
             print(snapshot.data);
             User currentUser = User.fromJson(snapshot.data!.data()!);
+            currentUserGlobal = currentUser;
             print(currentUser.toJson());
             return currentUser.isAdmin
                 ? Scaffold(
@@ -219,20 +220,46 @@ class _WebDashboardState extends State<WebDashboard> {
                       },
                     ),
                   );
+          } else if(snapshot.hasError) {
+            return Scaffold(
+              body: LayoutBuilder(
+                builder: (context,constraints) {
+                  return SizedBox(
+                    height: constraints.maxHeight,
+                    child: Center(
+                      child: Column(
+                        children: const [
+                          CircularProgressIndicator(
+                            color: AppColors.primaryColor,
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text('Error loading user')
+                        ],
+                      ),
+                    ),
+                  );
+                }
+              ),
+            );
           } else {
             return Scaffold(
-              body: Center(
-                child: Column(
-                  children: const [
-                    CircularProgressIndicator(
-                      color: AppColors.primaryColor,
+              body: LayoutBuilder(
+                builder: (context,constraints) {
+                  return SizedBox(
+                    height: constraints.maxHeight,
+                    child: Center(
+                      child: Column(
+                        children: const [
+                          CircularProgressIndicator(
+                            color: AppColors.primaryColor,
+                          ),
+                        ],
+                      ),
                     ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text('Error loading user')
-                  ],
-                ),
+                  );
+                }
               ),
             );
           }

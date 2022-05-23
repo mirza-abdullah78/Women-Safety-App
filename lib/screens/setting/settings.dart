@@ -226,21 +226,21 @@ class _SettingsPageState extends State<SettingsPage> {
                             ),
                           ),
                           if (isEditForm)
-                            SizedBox(
+                            const SizedBox(
                               width: 5,
                             ),
                           if (isEditForm)
                             Expanded(
                               flex: 1,
                               child: ElevatedButton(
+                                style: ButtonStyle(
+                                  backgroundColor: MaterialStateProperty.all(Colors.red)
+                                ),
                                 onPressed: () {
                                   trusties.value.remove(trusty['phoneNumber']);
                                   trusties.notifyListeners();
                                   Navigator.pop(context);
                                 },
-                                style: ButtonStyle(
-                                    // backgroundColor: Mat
-                                    ),
                                 child: !isLoading
                                     ? const SizedBox(
                                         width: 400,

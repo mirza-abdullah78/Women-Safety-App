@@ -14,6 +14,7 @@ import 'package:women_safety_app/screens/dashboard/custom_text_field.dart';
 import 'package:women_safety_app/screens/profile/profile_screen.dart';
 import 'package:women_safety_app/screens/setting/settings.dart';
 import 'package:women_safety_app/screens/store/store_screen.dart';
+import 'package:women_safety_app/screens/videos/video_screen.dart';
 import 'package:women_safety_app/utils/globals.dart';
 import 'package:women_safety_app/utils/utils.dart';
 
@@ -122,6 +123,7 @@ class _DashboardPageState extends State<DashboardPage> with RouteAware {
           if (snapshot.hasData) {
             print(snapshot.data);
             User currentUser = User.fromJson(snapshot.data!.data()!);
+            currentUserGlobal = currentUser;
             print(currentUser.toJson());
             return AdvancedDrawer(
               backdropColor: Colors.blueGrey,
@@ -353,7 +355,8 @@ class _DashboardPageState extends State<DashboardPage> with RouteAware {
                                                               currPosition
                                                                   .longitude);
                                                   // currLocation.name
-                                                  userRepo.updateLastLocation(currentUser.id!);
+                                                  userRepo.updateLastLocation(
+                                                      currentUser.id!);
                                                   print(
                                                       '\n -------- Current Latitude ${currPosition.latitude}');
                                                   print(
@@ -490,7 +493,10 @@ class _DashboardPageState extends State<DashboardPage> with RouteAware {
                                             flex: 2,
                                             child: InkWell(
                                               onTap: () async {
-                                                await makePhoneCall(currentUser.emergencyContacts?['police'] ?? '1111');
+                                                await makePhoneCall(currentUser
+                                                            .emergencyContacts?[
+                                                        'police'] ??
+                                                    '1111');
                                               },
                                               child: Card(
                                                 color: Colors.blueGrey,
@@ -535,7 +541,10 @@ class _DashboardPageState extends State<DashboardPage> with RouteAware {
                                             child: InkWell(
                                               splashColor: Colors.black,
                                               onTap: () async {
-                                                await makePhoneCall(currentUser.emergencyContacts?['ambulance'] ?? '1111');
+                                                await makePhoneCall(currentUser
+                                                            .emergencyContacts?[
+                                                        'ambulance'] ??
+                                                    '1111');
                                               },
                                               child: Card(
                                                 color: Colors.red,
@@ -651,6 +660,16 @@ class _DashboardPageState extends State<DashboardPage> with RouteAware {
                         leading: const Icon(Icons.store),
                         title: const Text('Store'),
                       ),
+                      ListTile(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => VideoScreen()));
+                        },
+                        leading: const Icon(Icons.video_file_sharp),
+                        title: const Text('Tutorials'),
+                      ),
                       // ListTile(
                       //   onTap: () {},
                       //   leading: const Icon(Icons.settings),
@@ -681,40 +700,43 @@ class _DashboardPageState extends State<DashboardPage> with RouteAware {
                 ),
               ),
             );
-          } else if(snapshot.hasError) {
+          } else if (snapshot.hasError) {
             return Scaffold(
-              body: Center(
-                child: Column(
-                  children: const [
-                    CircularProgressIndicator(
-                      color: AppColors.primaryColor,
+              body: LayoutBuilder(builder: (context, constraints) {
+                return SizedBox(
+                  height: constraints.maxHeight,
+                  child: Center(
+                    child: Column(
+                      children: const [
+                        CircularProgressIndicator(
+                          color: AppColors.primaryColor,
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text('Error loading user')
+                      ],
                     ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text('Error loading user')
-                  ],
-                ),
-              ),
+                  ),
+                );
+              }),
             );
           } else {
             return Scaffold(
-              body: LayoutBuilder(
-                builder: (context,constraints) {
-                  return SizedBox(
-                    height: constraints.maxHeight,
-                    child: Center(
-                      child: Column(
-                        children: const [
-                          CircularProgressIndicator(
-                            color: AppColors.primaryColor,
-                          ),
-                        ],
-                      ),
+              body: LayoutBuilder(builder: (context, constraints) {
+                return SizedBox(
+                  height: constraints.maxHeight,
+                  child: Center(
+                    child: Column(
+                      children: const [
+                        CircularProgressIndicator(
+                          color: AppColors.primaryColor,
+                        ),
+                      ],
                     ),
-                  );
-                }
-              ),
+                  ),
+                );
+              }),
             );
           }
         });

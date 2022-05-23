@@ -59,6 +59,7 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       backgroundColor: Colors.blueGrey,
       appBar: AppBar(
+        centerTitle: false,
         backgroundColor: kIsWeb?Colors.white: Colors.blueGrey,
         elevation: kIsWeb? 4:0,
         title: const Text(
@@ -66,6 +67,7 @@ class _LoginPageState extends State<LoginPage> {
           style: TextStyle(color: kIsWeb? Colors.blueGrey:Colors.white,fontWeight: FontWeight.w600),
         ),
         actions: [
+          if(!kIsWeb)
           TextButton(
               onPressed: () {
                 signInScreenNotifier.value = true;
@@ -82,6 +84,7 @@ class _LoginPageState extends State<LoginPage> {
                               : FontWeight.w400),
                     );
                   })),
+          if(!kIsWeb)
           TextButton(
               onPressed: () {
                 signInScreenNotifier.value = false;

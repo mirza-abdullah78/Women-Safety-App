@@ -1,14 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:women_safety_app/models/product.dart';
+import 'package:women_safety_app/models/user.dart';
 import 'package:women_safety_app/repo/auth_repo.dart';
 import 'package:women_safety_app/repo/location_repo.dart';
+import 'package:women_safety_app/repo/order_repo.dart';
 import 'package:women_safety_app/repo/product_repo.dart';
 import 'package:women_safety_app/repo/user_repo.dart';
+import 'package:women_safety_app/repo/video_repo.dart';
 
 final UserRepo userRepo = UserRepo();
 final AuthRepo authRepo = AuthRepo();
 final ProductRepo productRepo = ProductRepo();
 final LocationRepo locations = LocationRepo();
+final OrderRepo orderRepo = OrderRepo();
+final VideoRepo videoRepo = VideoRepo();
 
+User? currentUserGlobal;
+ValueNotifier<List<StoreProduct>> cart = ValueNotifier([]);
 const MediaQueryData? size = const MediaQueryData();
 // String? currentUser;
 

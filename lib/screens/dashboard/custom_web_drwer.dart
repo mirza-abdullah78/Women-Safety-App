@@ -4,6 +4,7 @@ import 'package:women_safety_app/screens/dashboard/dashboard_page.dart';
 import 'package:women_safety_app/screens/dashboard/web_dashboard.dart';
 import 'package:women_safety_app/screens/profile/profile_screen.dart';
 import 'package:women_safety_app/screens/store/store_screen.dart';
+import 'package:women_safety_app/screens/videos/video_screen.dart';
 import 'package:women_safety_app/utils/globals.dart';
 
 class CustomWebDrawer extends StatefulWidget {
@@ -88,6 +89,16 @@ class _CustomWebDrawerState extends State<CustomWebDrawer> {
             //   leading: const Icon(Icons.settings),
             //   title: const Text('Settings'),
             // ),
+            ListTile(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => VideoScreen()));
+              },
+              leading: const Icon(Icons.video_file_sharp),
+              title: const Text('Tutorials'),
+            ),
             ListTile(
               onTap: () {
                 authRepo.logOut();

@@ -27,5 +27,5 @@ class User {
         trusties = jsonData['trusties'],
         emergencyContacts = jsonData['emergencyContacts'],
         isAdmin = jsonData['isAdmin'] ?? false,
-        lastLocation = jsonData['lastLoaction'] ?? {};
+        lastLocation = jsonData['lastLocation'] ?? {};
 }

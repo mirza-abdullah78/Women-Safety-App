@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:women_safety_app/models/product.dart';
@@ -20,8 +21,9 @@ class _NewProductFormState extends State<NewProductForm> {
   StoreProduct? product;
   StoreProduct? newProduct;
   String? articleId, category, title, photo;
-  int? quantity;
+  int? quantity,price;
   final formKey = GlobalKey<FormState>();
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -46,29 +48,41 @@ class _NewProductFormState extends State<NewProductForm> {
                 alignment: Alignment.center,
                 child: newProduct?.productPhoto != null &&
                         newProduct!.productPhoto != ''
-                    ? InkWell(
-                        onTap: () {
-                          loadAssetsWeb();
-                        },
-                        child: ClipOval(
-                          child: Container(
-                            height: 100,
-                            width: 100,
-                            child: CachedNetworkImage(
-                              imageUrl: newProduct!.productPhoto!,
+                    ? isLoading
+                        ? const CircularProgressIndicator(
+                            color: Colors.blueGrey,
+                          )
+                        : InkWell(
+                            onTap: () {
+                              loadAssetsWeb();
+                            },
+                            child: ClipOval(
+                              child: SizedBox(
+                                height: 100,
+                                width: 100,
+                                child: CachedNetworkImage(
+                                  imageUrl: newProduct!.productPhoto!,
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                      )
+                          )
                     : InkWell(
                         onTap: () async {
                           // loadAssets();
+                          setBodyState(() {
+                            isLoading = true;
+                          });
                           String? url = await loadAssetsWeb();
                           print('-------- url -------->>> $url');
                           if (url != null && url.isNotEmpty) {
                             setBodyState(() {
                               newProduct!.productPhoto = url;
                               photo = url;
+                              isLoading = false;
+                            });
+                          } else {
+                            setBodyState(() {
+                              isLoading = false;
                             });
                           }
                         },
@@ -132,6 +146,7 @@ class _NewProductFormState extends State<NewProductForm> {
             CustomTextField(
               label: 'Article Id',
               hint: 'Enter article id',
+              initialValue: product?.articleId ?? '',
               onSaved: (v) {
                 if (v != null) {
                   articleId = v.trim();
@@ -150,7 +165,8 @@ class _NewProductFormState extends State<NewProductForm> {
             ),
             CustomTextField(
               label: 'Title',
-              hint: 'Enter article id',
+              hint: 'Enter title',
+              initialValue: product?.title ?? '',
               onSaved: (v) {
                 if (v != null) {
                   title = v.trim();
@@ -170,6 +186,7 @@ class _NewProductFormState extends State<NewProductForm> {
             CustomTextField(
               label: 'Category',
               hint: 'Enter category',
+              initialValue: product?.category ?? '',
               onSaved: (v) {
                 if (v != null) {
                   category = v.trim();
@@ -187,8 +204,29 @@ class _NewProductFormState extends State<NewProductForm> {
               height: 10,
             ),
             CustomTextField(
+              label: 'Price',
+              hint: 'Enter Price',
+              initialValue: product?.quantity?.toString() ?? '',
+              onSaved: (v) {
+                if (v != null) {
+                  price = int.parse(v.trim());
+                }
+              },
+              onValitdate: (v) {
+                if (v == null || v.isEmpty) {
+                  return 'Field cannot be null';
+                } else {
+                  return null;
+                }
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            CustomTextField(
               label: 'Quantity',
               hint: 'Enter quantity',
+              initialValue: product?.quantity?.toString() ?? '',
               onSaved: (v) {
                 if (v != null) {
                   quantity = int.parse(v.trim());
@@ -205,29 +243,71 @@ class _NewProductFormState extends State<NewProductForm> {
             const SizedBox(
               height: 20,
             ),
-            ElevatedButton(
-                onPressed: () {
-                  // loginUser();
-                  if (formKey.currentState!.validate()) {
-                    formKey.currentState!.save();
-                    productRepo
-                        .addNewProduct(StoreProduct(
-                            title, category, articleId, photo, quantity, true))
-                        .then((value) {
-                      if (value) {
-                        showSnackBar(context, 'Image Uploaded');
-                        Navigator.pop(context);
+            Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                    onPressed: () {
+                      // loginUser();
+                      if (formKey.currentState!.validate()) {
+                        formKey.currentState!.save();
+                        if (widget.isEditForm && product != null) {
+                          StoreProduct tempProduct = StoreProduct(title,
+                              category, articleId, photo, quantity, true,price);
+                          tempProduct.id = product!.id;
+                          productRepo.editProduct(tempProduct).then((value) {
+                            if (value) {
+                              showSnackBar(context, 'Product Updated');
+                              Navigator.pop(context);
+                            }
+                          });
+                        } else {
+                          productRepo
+                              .addNewProduct(StoreProduct(title, category,
+                                  articleId, photo, quantity, true,price))
+                              .then((value) {
+                            if (value) {
+                              showSnackBar(context, 'Product Updated');
+                              Navigator.pop(context);
+                            }
+                          });
+                        }
                       }
-                    });
-                  }
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    width: 100,
-                    child: const Center(child: Text('Add')),
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        width: 100,
+                        child: Center(
+                            child: Text(widget.isEditForm ? 'Update' : 'Add')),
+                      ),
+                    )),
+                if(widget.isEditForm)
+                const SizedBox(width: 10,),
+                if(widget.isEditForm)
+                ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Colors.red)
                   ),
-                )),
+                    onPressed: () {
+                      productRepo.deleteProduct(product!)
+                              .then((value) {
+                            if (value) {
+                              showSnackBar(context, 'Product Deleted');
+                              Navigator.pop(context);
+                            }
+                          });
+                    },
+                    child: const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: SizedBox(
+                        width: 100,
+                        child: Center(child: Text('Delete')),
+                      ),
+                    )),
+              ],
+            ),
           ],
         ),
       ),

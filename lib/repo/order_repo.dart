@@ -8,30 +8,31 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:women_safety_app/models/order.dart';
 import 'package:women_safety_app/models/product.dart';
 
-class ProductRepo {
+class OrderRepo {
   final _firestore = FirebaseFirestore.instance;
 
   Stream<QuerySnapshot> getAllProductsStream() {
     return _firestore.collection('products').snapshots();
   }
 
-  Future<bool> addNewProduct(StoreProduct product) async {
+  Future<bool> addNewOrder(Order order) async {
     print('-------- add new product function ---------');
-    DocumentReference docRef = _firestore.collection('products').doc();
+    DocumentReference docRef = _firestore.collection('orders').doc();
 
-    product.id = docRef.id;
+    order.id = docRef.id;
 
     return await _firestore
-        .collection('products')
+        .collection('orders')
         .doc(docRef.id)
-        .set(product.toJson(), SetOptions(merge: true))
+        .set(order.toJson(), SetOptions(merge: true))
         .then((value) {
-      print('-------- product added ---------');
+      print('-------- Order added ---------');
       return true;
     }).catchError((e, s) {
-      print('-------- product not added ---------');
+      print('-------- Order not added ---------');
       print(e);
       print(s);
       return false;
@@ -102,6 +103,4 @@ class ProductRepo {
       return '';
     });
   }
-
-  
 }
