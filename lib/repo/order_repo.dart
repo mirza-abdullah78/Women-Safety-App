@@ -14,8 +14,8 @@ import 'package:women_safety_app/models/product.dart';
 class OrderRepo {
   final _firestore = FirebaseFirestore.instance;
 
-  Stream<QuerySnapshot> getAllProductsStream() {
-    return _firestore.collection('products').snapshots();
+  Stream<QuerySnapshot> getAllOrdersStream() {
+    return _firestore.collection('orders').snapshots();
   }
 
   Future<bool> addNewOrder(Order order) async {
@@ -40,11 +40,6 @@ class OrderRepo {
   }
     
   Future<bool> editProduct(StoreProduct product) async {
-    // print('-------- add new product function ---------');
-    // DocumentReference docRef = _firestore.collection('products').doc();
-
-    // product.id = docRef.id;
-
     return await _firestore
         .collection('products')
         .doc(product.id)
@@ -54,6 +49,22 @@ class OrderRepo {
       return true;
     }).catchError((e, s) {
       print('-------- product not added ---------');
+      print(e);
+      print(s);
+      return false;
+    });
+  }
+
+  Future<bool> updateStatus(Order order,String status) async {
+    return await _firestore
+        .collection('orders')
+        .doc(order.id)
+        .set({'status':status}, SetOptions(merge: true))
+        .then((value) {
+      print('-------- Order updated---------');
+      return true;
+    }).catchError((e, s) {
+      print('-------- order not updated ---------');
       print(e);
       print(s);
       return false;

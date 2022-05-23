@@ -3,6 +3,7 @@ import 'package:women_safety_app/models/user.dart';
 import 'package:women_safety_app/screens/dashboard/dashboard_page.dart';
 import 'package:women_safety_app/screens/dashboard/web_dashboard.dart';
 import 'package:women_safety_app/screens/profile/profile_screen.dart';
+import 'package:women_safety_app/screens/store/manage_orders.dart';
 import 'package:women_safety_app/screens/store/store_screen.dart';
 import 'package:women_safety_app/screens/videos/video_screen.dart';
 import 'package:women_safety_app/utils/globals.dart';
@@ -98,6 +99,16 @@ class _CustomWebDrawerState extends State<CustomWebDrawer> {
               },
               leading: const Icon(Icons.video_file_sharp),
               title: const Text('Tutorials'),
+            ),
+            ListTile(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ManageOrdersScreen()));
+              },
+              leading: const Icon(Icons.manage_history),
+              title: const Text('Manage Orders'),
             ),
             ListTile(
               onTap: () {

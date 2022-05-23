@@ -111,9 +111,9 @@ class _CartScreenState extends State<CartScreen> {
                                       ' ' +
                                       currentUserGlobal!.lastName!,
                                   'phoneNumber': currentUserGlobal!.phoneNumber
-                                },
+                                },'inProcess',
                                 tempProducts,
-                                total);
+                                total,);
                             await orderRepo.addNewOrder(order).then((value) {
                               if (value) {
                                 showSnackBar(

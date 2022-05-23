@@ -1,11 +1,11 @@
 class Order {
-  String? id, phoneNumber, deliveryAddress;
+  String? id, phoneNumber, deliveryAddress,status;
   bool? isCOD;
   Map? orderBy;
   int? total;
-  List<Map>? products;
+  List products;
 
-  Order(this.phoneNumber, this.deliveryAddress, this.isCOD, this.orderBy,
+  Order(this.phoneNumber, this.deliveryAddress, this.isCOD, this.orderBy,this.status,
       this.products, this.total);
 
   Map<String, dynamic> toJson() => {
@@ -15,7 +15,8 @@ class Order {
         'isCOD': isCOD,
         'orderBy': orderBy,
         'products': products,
-        'total': total
+        'total': total,
+        'status': status
       };
 
   Order.fromJson(Map<String, dynamic> jsonData)
@@ -24,6 +25,7 @@ class Order {
         deliveryAddress = jsonData['deliveryAddress'],
         isCOD = jsonData['isCOD'],
         orderBy = jsonData['orderBy'],
+        status = jsonData['status'],
         total = jsonData['total'],
         products = jsonData['products'];
 }

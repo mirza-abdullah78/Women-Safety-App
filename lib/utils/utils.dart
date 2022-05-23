@@ -164,8 +164,8 @@ Future<String?> loadVideosWeb() async {
   // print(bytesFromPicker);
   String? url;
   if (bytesFromPicker != null) {
-    url = await productRepo.uploadPicture(
-      bytesFromPicker,
+    url = await videoRepo.uploadVideo(
+      bytesFromPicker,''
     );
     return url;
   } else {

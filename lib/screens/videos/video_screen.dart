@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:women_safety_app/utils/globals.dart';
+import 'package:women_safety_app/utils/utils.dart';
 
 class VideoScreen extends StatefulWidget {
   VideoScreen({Key? key}) : super(key: key);
@@ -12,7 +13,7 @@ class VideoScreen extends StatefulWidget {
 }
 
 class _VideoScreenState extends State<VideoScreen> {
-    Widget build(BuildContext context) {
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Tutorials'),
@@ -27,6 +28,7 @@ class _VideoScreenState extends State<VideoScreen> {
                   alignment: Alignment.centerRight,
                   child: ElevatedButton(
                       onPressed: () {
+                        loadVideosWeb();
                       },
                       child: const Text('Add Video')),
                 ),
@@ -48,7 +50,7 @@ class _VideoScreenState extends State<VideoScreen> {
                                     crossAxisCount: kIsWeb ? 6 : 2,
                                     mainAxisSpacing: 20,
                                     crossAxisSpacing: 20,
-                                    mainAxisExtent: kIsWeb?300: 220),
+                                    mainAxisExtent: kIsWeb ? 300 : 220),
                             itemCount: qs.docs.length,
                             itemBuilder: (context, index) {
                               return Card(
@@ -99,7 +101,7 @@ class _VideoScreenState extends State<VideoScreen> {
                                       // ),
                                       // ElevatedButton(
                                       //     onPressed: () {
-                                            
+
                                       //     },
                                       //     child: Center(
                                       //       child: Text(kIsWeb
@@ -137,5 +139,4 @@ class _VideoScreenState extends State<VideoScreen> {
       }),
     );
   }
-
 }

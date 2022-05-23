@@ -55,6 +55,7 @@ class _StoreScreenState extends State<StoreScreen> {
       appBar: AppBar(
         title: const Text('Store'),
         actions: [
+          if(!kIsWeb)
           IconButton(
             onPressed: () => Navigator.push(
                 context,

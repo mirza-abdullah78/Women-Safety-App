@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:women_safety_app/models/order.dart';
 import 'package:women_safety_app/models/user.dart';
 import 'package:women_safety_app/screens/dashboard/custom_web_drwer.dart';
 import 'package:women_safety_app/utils/globals.dart';
@@ -69,10 +70,85 @@ class _WebDashboardState extends State<WebDashboard> {
                                   //     Card()
                                   //   ],
                                   // )
+                                  const Text('Orders',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600,color: Colors.blueGrey),),
+                                  const SizedBox(height: 10,),
+                                  Container(
+                                    height: 300,
+                                    // padding: const EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                      color: AppColors.baseBackgroundColor,
+                                      border: Border.all(
+                                          width: 2, color: Colors.blueGrey),
+                                      borderRadius: BorderRadius.circular(25),
+                                    ),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Container(
+                                          decoration:  BoxDecoration(
+                                            color: Colors.blueGrey.shade100,
+                                            borderRadius: const BorderRadius.only(
+                                              topLeft: Radius.circular(24),
+                                              topRight: Radius.circular(24)
+                                            )
+                                          ),
+                                          
+                                          child: getTableRow('Phone Number', 'Delivery Address',
+                                              'Status'),
+                                        ),
+                                        StreamBuilder(
+                                          stream: orderRepo.getAllOrdersStream(),
+                                          builder: (context, snapshot) {
+                                            if (snapshot.hasData) {
+                                              QuerySnapshot qs = snapshot.data
+                                                  as QuerySnapshot;
+                                              // print(snapshot);
+                                              if (qs.docs.isNotEmpty) {
+                                                return ListView.builder(
+                                                  shrinkWrap: true,
+                                                    itemCount: qs.docs.length,
+                                                    itemBuilder:
+                                                        (context, index) {
+                                                      print(qs.docs[index]
+                                                          .data());
+                                                      Order _order =
+                                                          Order.fromJson(qs
+                                                                  .docs[index]
+                                                                  .data()
+                                                              as Map<String,
+                                                                  dynamic>);
+
+                                                      return getTableRow(
+                                                          _order.phoneNumber!,
+                                                          _order.deliveryAddress!,
+                                                          _order.status!);
+                                                    });
+                                              } else {
+                                                print('emtyyyyyy');
+                                                return Container();
+                                              }
+                                            } else if (snapshot.hasError) {
+                                              print(snapshot.error);
+                                              return const Center(
+                                                child: Text('Error'),
+                                              );
+                                            } else {
+                                              return const Center(
+                                                child:
+                                                    CircularProgressIndicator(),
+                                              );
+                                            }
+                                          },
+                                        ),
+                                      
+                                      ],
+                                    ),
+                                  ),
+                                  const SizedBox(height: 20,),
                                   const Text('Users',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600,color: Colors.blueGrey),),
                                   const SizedBox(height: 10,),
                                   Container(
-                                    height: 400,
+                                    height: 300,
                                     // padding: const EdgeInsets.all(10),
                                     decoration: BoxDecoration(
                                       color: AppColors.baseBackgroundColor,
@@ -144,7 +220,7 @@ class _WebDashboardState extends State<WebDashboard> {
                                         ),
                                       ],
                                     ),
-                                  )
+                                  ),
                                 ],
                               ),
                             ),
