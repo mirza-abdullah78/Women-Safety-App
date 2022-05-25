@@ -143,26 +143,26 @@ class _NewProductFormState extends State<NewProductForm> {
                       ),
               );
             }),
-            CustomTextField(
-              label: 'Article Id',
-              hint: 'Enter article id',
-              initialValue: product?.articleId ?? '',
-              onSaved: (v) {
-                if (v != null) {
-                  articleId = v.trim();
-                }
-              },
-              onValitdate: (v) {
-                if (v == null || v.isEmpty) {
-                  return 'Field cannot be null';
-                } else {
-                  return null;
-                }
-              },
-            ),
-            const SizedBox(
-              height: 10,
-            ),
+            // CustomTextField(
+            //   label: 'Article Id',
+            //   hint: 'Enter article id',
+            //   initialValue: product?.articleId ?? '',
+            //   onSaved: (v) {
+            //     if (v != null) {
+            //       articleId = v.trim();
+            //     }
+            //   },
+            //   onValitdate: (v) {
+            //     if (v == null || v.isEmpty) {
+            //       return 'Field cannot be null';
+            //     } else {
+            //       return null;
+            //     }
+            //   },
+            // ),
+            // const SizedBox(
+            //   height: 10,
+            // ),
             CustomTextField(
               label: 'Title',
               hint: 'Enter title',
@@ -183,26 +183,26 @@ class _NewProductFormState extends State<NewProductForm> {
             const SizedBox(
               height: 10,
             ),
-            CustomTextField(
-              label: 'Category',
-              hint: 'Enter category',
-              initialValue: product?.category ?? '',
-              onSaved: (v) {
-                if (v != null) {
-                  category = v.trim();
-                }
-              },
-              onValitdate: (v) {
-                if (v == null || v.isEmpty) {
-                  return 'Field cannot be null';
-                } else {
-                  return null;
-                }
-              },
-            ),
-            const SizedBox(
-              height: 10,
-            ),
+            // CustomTextField(
+            //   label: 'Category',
+            //   hint: 'Enter category',
+            //   initialValue: product?.category ?? '',
+            //   onSaved: (v) {
+            //     if (v != null) {
+            //       category = v.trim();
+            //     }
+            //   },
+            //   onValitdate: (v) {
+            //     if (v == null || v.isEmpty) {
+            //       return 'Field cannot be null';
+            //     } else {
+            //       return null;
+            //     }
+            //   },
+            // ),
+            // const SizedBox(
+            //   height: 10,
+            // ),
             CustomTextField(
               label: 'Price',
               hint: 'Enter Price',
@@ -254,7 +254,7 @@ class _NewProductFormState extends State<NewProductForm> {
                         formKey.currentState!.save();
                         if (widget.isEditForm && product != null) {
                           StoreProduct tempProduct = StoreProduct(title,
-                              category, articleId, photo, quantity, true,price,product!.isDisable,product!.reviews?? []);
+                              articleId, photo, quantity, true,price,product!.isDisable,product!.reviews?? []);
                           tempProduct.id = product!.id;
                           productRepo.editProduct(tempProduct).then((value) {
                             if (value) {
@@ -264,7 +264,7 @@ class _NewProductFormState extends State<NewProductForm> {
                           });
                         } else {
                           productRepo
-                              .addNewProduct(StoreProduct(title, category,
+                              .addNewProduct(StoreProduct(title,
                                   articleId, photo, quantity, true,price,false,[]))
                               .then((value) {
                             if (value) {

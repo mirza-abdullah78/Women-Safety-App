@@ -40,14 +40,16 @@ class OrderRepo {
           .collection('products')
           .doc(element['productId'])
           .get()
-          .then((value) {
+          .then((value) async{
         Map<String,dynamic>? tempMap = value.data();
         if(tempMap != null && tempMap.isNotEmpty && tempMap['quantity'] > 0) {
-          _firestore
+          await _firestore
             .collection('products')
             .doc(element['productId'])
             .set({
-              'quantity': tempMap['quantity'] - 1
+              'quantity': tempMap['quantity'] - 1,
+              if(tempMap['totalOrders'] != null)
+                'totalOrders': FieldValue.arrayUnion([order.id])
             }, SetOptions(merge: true));
         }
       });

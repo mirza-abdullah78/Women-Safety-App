@@ -1,16 +1,16 @@
 class StoreProduct {
-  String? id, title, category, articleId, productPhoto;
+  String? id, title, articleId, productPhoto;
   bool isAvailable, isDisable;
   int? quantity, price;
   List? reviews;
 
-  StoreProduct(this.title, this.category, this.articleId, this.productPhoto,
+  StoreProduct(this.title, this.articleId, this.productPhoto,
       this.quantity, this.isAvailable, this.price, this.isDisable,this.reviews);
 
   Map<String, dynamic> toJson() => {
         '_id': id,
         'title': title,
-        'category': category,
+        // 'category': category,
         'articleId': articleId,
         'productPhoto': productPhoto,
         'quantity': quantity,
@@ -23,7 +23,7 @@ class StoreProduct {
   StoreProduct.fromJson(Map<String, dynamic> jsonData)
       : id = jsonData['_id'],
         title = jsonData['title'],
-        category = jsonData['category'],
+        // category = jsonData['category'],
         articleId = jsonData['articleId'],
         productPhoto = jsonData['productPhoto'],
         quantity = jsonData['quantity'],

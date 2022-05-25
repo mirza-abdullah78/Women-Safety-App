@@ -194,6 +194,7 @@ class _LoginPageState extends State<LoginPage> {
                                           CustomTextField(
                                             label: 'Email',
                                             hint: 'Enter email address',
+                                            keyboardType: TextInputType.emailAddress,
                                             onSaved: (v) {
                                               if (v != null) {
                                                 email = v.trim();
@@ -413,6 +414,7 @@ class _LoginPageState extends State<LoginPage> {
                                         CustomTextField(
                                           label: 'Phone Number',
                                           hint: 'Enter phone number',
+                                          keyboardType: TextInputType.number,
                                           onSaved: (v) {
                                             phoneNumber = v;
                                           },
@@ -428,6 +430,7 @@ class _LoginPageState extends State<LoginPage> {
                                         CustomTextField(
                                           label: 'Email Address',
                                           hint: 'Enter email address',
+                                          keyboardType: TextInputType.emailAddress,
                                           onSaved: (v) {
                                             if (v != null) {
                                               email = v.trim();
