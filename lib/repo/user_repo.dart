@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:telephony/telephony.dart';
 import 'package:women_safety_app/models/user.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:women_safety_app/utils/firebase_push_notification_service.dart';
 import 'package:women_safety_app/utils/globals.dart';
 
 class UserRepo {
@@ -33,18 +34,20 @@ class UserRepo {
     });
   }
 
-  updateLastLocation(String id,) async {
-    await locations.getLastLocation().then((value) async{
+  updateLastLocation(
+    String id,
+  ) async {
+    await locations.getLastLocation().then((value) async {
       await _firestore
-        .collection('users')
-        .doc(id)
-        .set({'lastLocation': value}, SetOptions(merge: true))
-        // .set(updatedUser.toJson(), SetOptions(merge: true))
-        .then((value) => true)
-        .catchError((e, s) {
-          print(e);
-          print(s);
-        });
+          .collection('users')
+          .doc(id)
+          .set({'lastLocation': value}, SetOptions(merge: true))
+          // .set(updatedUser.toJson(), SetOptions(merge: true))
+          .then((value) => true)
+          .catchError((e, s) {
+            print(e);
+            print(s);
+          });
     });
 
     // return await _firestore
@@ -72,6 +75,50 @@ class UserRepo {
           print(s);
           return false;
         });
+  }
+
+  Future<bool> setDefaultTrusty(String id, String defaultTrusty) async {
+    return _firestore
+        .collection('users')
+        .doc(id)
+        .set({
+          'defaultTrusty': defaultTrusty,
+        }, SetOptions(merge: true))
+        .then((value) => true)
+        .catchError((e, s) {
+          print(e);
+          print(s);
+          return false;
+        });
+  }
+
+  Future<bool> updateBlockStatus(String id, bool value) async {
+    return _firestore
+        .collection('users')
+        .doc(id)
+        .set({'isBlocked': value}, SetOptions(merge: true))
+        .then((value) => true)
+        .catchError((e, s) {
+          print(e);
+          print(s);
+          return false;
+        });
+  }
+
+  sendNotificationToAll(String title,String body) async {
+   return await _firestore.collection('users').get().then((value) async {
+      if (value.docs.isNotEmpty) {
+        for (var element in value.docs) {
+          if (element['notifToken'] != null &&
+              element['notifToken'].isNotEmpty)  {
+            await sendNotification(element['notifToken'],title,body);
+          }
+        }
+      }
+    }).catchError((e, s) {
+      print(e);
+      print(s);
+    });
   }
 
   Future<String> uploadPicture(PickedFile file, User currentUser) async {
@@ -148,6 +195,6 @@ class UserRepo {
 
   // all users stream
   Stream<QuerySnapshot> getAllUserStream() {
-     return _firestore.collection('users').snapshots();
+    return _firestore.collection('users').snapshots();
   }
 }

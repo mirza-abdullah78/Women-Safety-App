@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:women_safety_app/models/user.dart';
 import 'package:women_safety_app/screens/dashboard/dashboard_page.dart';
 import 'package:women_safety_app/screens/dashboard/web_dashboard.dart';
+import 'package:women_safety_app/screens/profile/manage_users.dart';
 import 'package:women_safety_app/screens/profile/profile_screen.dart';
-import 'package:women_safety_app/screens/store/manage_orders.dart';
+import 'package:women_safety_app/screens/orders/manage_orders.dart';
 import 'package:women_safety_app/screens/store/store_screen.dart';
 import 'package:women_safety_app/screens/videos/video_screen.dart';
 import 'package:women_safety_app/utils/globals.dart';
@@ -97,8 +98,8 @@ class _CustomWebDrawerState extends State<CustomWebDrawer> {
                     MaterialPageRoute(
                         builder: (context) => VideoScreen()));
               },
-              leading: const Icon(Icons.video_file_sharp),
-              title: const Text('Tutorials'),
+              leading: const Icon(Icons.play_arrow),
+              title: const Text('Videos'),
             ),
             ListTile(
               onTap: () {
@@ -109,6 +110,16 @@ class _CustomWebDrawerState extends State<CustomWebDrawer> {
               },
               leading: const Icon(Icons.manage_history),
               title: const Text('Manage Orders'),
+            ),
+            ListTile(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ManageUsersScreen()));
+              },
+              leading: const Icon(Icons.person),
+              title: const Text('Manage Users'),
             ),
             ListTile(
               onTap: () {

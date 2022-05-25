@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:pay/pay.dart';
 import 'package:women_safety_app/models/order.dart';
 import 'package:women_safety_app/models/product.dart';
 import 'package:women_safety_app/screens/dashboard/custom_text_field.dart';
@@ -95,7 +96,7 @@ class _CartScreenState extends State<CartScreen> {
                             List<Map> tempProducts = [];
                             for (var element in cart.value) {
                               tempProducts.add({
-                                'orderId': element.id,
+                                'productId': element.id,
                                 'title': element.title,
                                 'price': element.price,
                                 'articleId': element.articleId
@@ -295,6 +296,18 @@ class _CartScreenState extends State<CartScreen> {
                     title: Text('Cash on Delivery'),
                   ),
                 ),
+                const SizedBox(height: 10),
+                GooglePayButton(
+                  paymentConfigurationAsset: 'default_payment_profile_google_pay.json',
+                  paymentItems: [PaymentItem(amount: total.toString())],
+                  style: GooglePayButtonStyle.black,
+                  type: GooglePayButtonType.pay,
+                  margin: const EdgeInsets.only(top: 15.0),
+                  onPaymentResult: onGooglePayResult,
+                  loadingIndicator: const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                ),
               ],
             ),
           );
@@ -302,4 +315,7 @@ class _CartScreenState extends State<CartScreen> {
       ),
     );
   }
+}
+void onGooglePayResult(paymentResult) {
+  // Send the resulting Google Pay token to your server / PSP
 }

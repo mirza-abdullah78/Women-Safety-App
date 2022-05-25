@@ -1,11 +1,14 @@
 // ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:fluttercontactpicker/fluttercontactpicker.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:mdi/mdi.dart';
 import 'package:women_safety_app/models/user.dart';
 import 'package:women_safety_app/screens/dashboard/custom_text_field.dart';
 import 'package:women_safety_app/utils/globals.dart';
+import 'package:women_safety_app/utils/utils.dart';
 
 class SettingsPage extends StatefulWidget {
   User? user;
@@ -50,6 +53,226 @@ class _SettingsPageState extends State<SettingsPage> {
     print('*********** dispose **********');
     // trusties.value = [];
     super.dispose();
+  }
+
+  getTrustyCard(Map trusty) {
+    return Container(
+        margin: const EdgeInsets.symmetric(vertical: 10),
+        decoration: BoxDecoration(
+            border: Border.all(color: Colors.transparent),
+            borderRadius: const BorderRadius.only(
+              topRight: Radius.circular(4),
+              topLeft: Radius.circular(4),
+            ),
+            boxShadow: [
+              BoxShadow(
+                  offset: Offset(0, 1),
+                  blurRadius: 4,
+                  color: Colors.black.withOpacity(0.12))
+            ]),
+        child: Card(
+          margin: EdgeInsets.zero,
+          elevation: 1,
+          color: const Color(0xFFFFFFFF),
+          shadowColor: const Color(0x1F000000),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+          child: Column(children: [
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.only(
+                  topRight: Radius.circular(4),
+                  topLeft: Radius.circular(4),
+                ),
+                color: Colors.blueGrey.shade100,
+              ),
+              padding: const EdgeInsets.all(15),
+              child: Row(
+                children: [
+                  Expanded(
+                      flex: 2,
+                      child: Container(
+                        height: 45,
+                        width: 45,
+                        alignment: Alignment.center,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Color(0x16000000),
+                        ),
+                        child: Center(
+                          child: Icon(
+                            Icons.person,
+                            color: Colors.blueGrey.shade700,
+                            size: 20,
+                          ),
+                        ),
+                      )),
+                  Expanded(
+                    flex: 5,
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      child: Container(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              trusty['name'],
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline1!
+                                  .copyWith(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.blueGrey,
+                                      fontSize: 16),
+                            ),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            Text(
+                              trusty['phoneNumber'],
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText2!
+                                  .copyWith(color: Colors.blueGrey),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: Container(
+                      height: 32,
+                      width: 32,
+                      alignment: Alignment.center,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white,
+                      ),
+                      child: InkWell(
+                        onTap: () {
+                          makePhoneCall(trusty['phoneNumber']);
+                        },
+                        child: Center(
+                          child: Icon(
+                            Icons.call,
+                            color: Colors.blueGrey.shade700,
+                            size: 18,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 40,
+              // padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: InkWell(
+                      onTap: () {
+                        if (currentUser!.defaultTrusty! ==
+                            trusty['phoneNumber']) {
+                          userRepo.setDefaultTrusty(currentUser!.id!, '');
+                          trusties.notifyListeners();
+                        } else {
+                          userRepo.setDefaultTrusty(
+                              currentUser!.id!, trusty['phoneNumber']);
+                        }
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        child: Center(
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Icon(
+                                Mdi.cursorDefault,
+                                color: currentUser!.defaultTrusty! ==
+                                        trusty['phoneNumber']
+                                    ? Colors.red.shade300
+                                    : Color(0xff757575),
+                                size: 20,
+                              ),
+                              const SizedBox(
+                                width: 8,
+                              ),
+                              Text(
+                                currentUser!.defaultTrusty! ==
+                                        trusty['phoneNumber']
+                                    ? 'Remove Default'
+                                    : 'Set Default',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .copyWith(
+                                        color: currentUser!.defaultTrusty! ==
+                                                trusty['phoneNumber']
+                                            ? Colors.red.shade300
+                                            : AppColors.primaryColor,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: InkWell(
+                      onTap: () {
+                        showBottomSheet(trusty, true);
+                      },
+                      child: Container(
+                        // padding: EdgeInsets.fromLTRB(0, 0, 15, 0),
+                        // color: Colors.white,
+                        alignment: Alignment.center,
+                        child: Center(
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              const Icon(
+                                Icons.edit,
+                                color: Colors.blueGrey,
+                                size: 20,
+                              ),
+                              const SizedBox(
+                                width: 8,
+                              ),
+                              Text(
+                                'Edit',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .copyWith(
+                                        color: Colors.blueGrey,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            )
+          ]),
+        ));
   }
 
   showBottomSheet(Map trusty, bool isEditForm) {
@@ -165,6 +388,44 @@ class _SettingsPageState extends State<SettingsPage> {
                       const SizedBox(
                         height: 10,
                       ),
+                      // StatefulBuilder(builder: (context, setTextFieldState) {
+                      //   return TypeAheadFormField<String>(
+                      //     suggestionsCallback: () async {
+                      //       return Future.value(['']);
+                      //     },
+                      //     initialValue: isEditForm ? trusty['relation'] : '',
+                      //     textFieldConfiguration: TextFieldConfiguration(
+                      //         autofocus: true,
+                      //         style: DefaultTextStyle.of(context)
+                      //             .style
+                      //             .copyWith(fontStyle: FontStyle.italic),
+                      //         decoration: InputDecoration(
+                      //             border: OutlineInputBorder())),
+                      //     validator: (v) {
+                      //       if (v == null || v.isEmpty) {
+                      //         return 'Relation cannot be null';
+                      //       } else {
+                      //         return null;
+                      //       }
+                      //     },
+                      //     onSaved: (v) {
+                      //       if (v != null) {
+                      //         relation = v.trim();
+                      //       }
+                      //     },
+                      //     itemBuilder: (context, suggestion) {
+                      //       return ListTile(
+                      //         leading: const Icon(Icons.person),
+                      //         title: Text(suggestion),
+                      //       );
+                      //     },
+                      //     onSuggestionSelected: (suggestion) {
+                      //       setTextFieldState(() {
+                      //         relation = suggestion;
+                      //       });
+                      //     },
+                      //   );
+                      // }),
                       CustomTextField(
                         initialValue: isEditForm ? trusty['relation'] : '',
                         label: 'Relation',
@@ -234,8 +495,8 @@ class _SettingsPageState extends State<SettingsPage> {
                               flex: 1,
                               child: ElevatedButton(
                                 style: ButtonStyle(
-                                  backgroundColor: MaterialStateProperty.all(Colors.red)
-                                ),
+                                    backgroundColor:
+                                        MaterialStateProperty.all(Colors.red)),
                                 onPressed: () {
                                   trusties.value.remove(trusty['phoneNumber']);
                                   trusties.notifyListeners();
@@ -355,29 +616,11 @@ class _SettingsPageState extends State<SettingsPage> {
                           shrinkWrap: true,
                           itemCount: trustiesMap.length,
                           itemBuilder: (context, index) {
-                            return Card(
-                              elevation: 4,
-                              child: ListTile(
-                                leading: const Icon(Icons.person),
-                                trailing: IconButton(
-                                    onPressed: () {
-                                      showBottomSheet(
-                                          trustiesMap[
-                                              trustiesMap.keys.toList()[index]],
-                                          true);
-                                    },
-                                    icon: const Icon(Icons.edit)),
-                                title: Text(
-                                  trustiesMap[trustiesMap.keys.toList()[index]]
-                                          ['name']
-                                      .toString()
-                                      .toUpperCase(),
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyText1!
-                                      .copyWith(fontSize: 16),
-                                ),
-                              ),
+                            return Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 5),
+                              child: getTrustyCard(trustiesMap[
+                                  trustiesMap.keys.toList()[index]]),
                             );
                           });
                     }),

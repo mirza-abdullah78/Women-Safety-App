@@ -9,15 +9,20 @@ class CustomTextField extends StatelessWidget {
   final String? Function(String?) onValitdate;
   final Function(String?) onSaved;
   final Function(String?)? onChanged;
+  final int? maxLines;
+  final TextInputType? keyboardType;
   const CustomTextField(
       {Key? key,
       this.label,
       this.hint,
       this.isPasswordField = false,
       this.initialValue,
+      this.maxLines = 1,
       required this.onValitdate,
       required this.onSaved,
-      this.onChanged,this.trailing})
+      this.onChanged,
+      this.keyboardType = TextInputType.text,
+      this.trailing})
       : super(key: key);
 
   @override
@@ -38,26 +43,30 @@ class CustomTextField extends StatelessWidget {
         ),
         StatefulBuilder(builder: (context, setFieldState) {
           return TextFormField(
+            maxLines: maxLines,
             obscureText: isObscure,
             initialValue: initialValue ?? '',
+            keyboardType: keyboardType,
             decoration: InputDecoration(
                 hintText: hint,
                 border: const OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.black45, width: 2),
                     borderRadius: BorderRadius.all(Radius.circular(10.0)),
                     gapPadding: 50),
-                suffixIcon: trailing ?? IconButton(
-                    icon: isPasswordField
-                        ? Icon(
-                            isObscure ? Icons.visibility : Icons.visibility_off)
-                        : const SizedBox(
-                            width: 0,
-                          ),
-                    onPressed: () {
-                      setFieldState(() {
-                        isObscure = !isObscure;
-                      });
-                    })),
+                suffixIcon: trailing ??
+                    IconButton(
+                        icon: isPasswordField
+                            ? Icon(isObscure
+                                ? Icons.visibility
+                                : Icons.visibility_off)
+                            : const SizedBox(
+                                width: 0,
+                              ),
+                        onPressed: () {
+                          setFieldState(() {
+                            isObscure = !isObscure;
+                          });
+                        })),
             onChanged: onChanged,
             onSaved: onSaved,
             validator: onValitdate,

@@ -254,7 +254,7 @@ class _NewProductFormState extends State<NewProductForm> {
                         formKey.currentState!.save();
                         if (widget.isEditForm && product != null) {
                           StoreProduct tempProduct = StoreProduct(title,
-                              category, articleId, photo, quantity, true,price);
+                              category, articleId, photo, quantity, true,price,product!.isDisable,product!.reviews?? []);
                           tempProduct.id = product!.id;
                           productRepo.editProduct(tempProduct).then((value) {
                             if (value) {
@@ -265,7 +265,7 @@ class _NewProductFormState extends State<NewProductForm> {
                         } else {
                           productRepo
                               .addNewProduct(StoreProduct(title, category,
-                                  articleId, photo, quantity, true,price))
+                                  articleId, photo, quantity, true,price,false,[]))
                               .then((value) {
                             if (value) {
                               showSnackBar(context, 'Product Updated');

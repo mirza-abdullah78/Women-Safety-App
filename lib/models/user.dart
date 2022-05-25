@@ -1,11 +1,11 @@
 class User {
-  String? id, firstName, lastName, phoneNumber, profilePhoto;
+  String? id, firstName, lastName, phoneNumber, profilePhoto, email,defaultTrusty;
   Map? trusties, emergencyContacts;
-  bool isAdmin;
+  bool isAdmin, isBlocked;
   Map? lastLocation;
 
   User(this.id, this.firstName, this.lastName, this.phoneNumber, this.trusties,
-      this.profilePhoto, this.emergencyContacts, this.isAdmin);
+      this.profilePhoto, this.emergencyContacts, this.isAdmin, this.isBlocked,this.email,this.defaultTrusty);
 
   Map<String, dynamic> toJson() => {
         '_id': id,
@@ -15,7 +15,10 @@ class User {
         'trusties': trusties,
         'profilePhoto': profilePhoto,
         'emergencyContacts': emergencyContacts,
-        'isAdmin': isAdmin
+        'isAdmin': isAdmin,
+        'isBlocked': isBlocked,
+        'email': email,
+        'defaultTrusty':defaultTrusty
       };
 
   User.fromJson(Map<String, dynamic> jsonData)
@@ -27,5 +30,8 @@ class User {
         trusties = jsonData['trusties'],
         emergencyContacts = jsonData['emergencyContacts'],
         isAdmin = jsonData['isAdmin'] ?? false,
+        isBlocked = jsonData['isBlocked'] ?? false,
+        email = jsonData['email'],
+        defaultTrusty = jsonData['defaultTrusty'] ?? '',
         lastLocation = jsonData['lastLocation'] ?? {};
 }

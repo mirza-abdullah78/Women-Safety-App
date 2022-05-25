@@ -1,6 +1,8 @@
 // ignore_for_file: avoid_print
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:women_safety_app/repo/user_repo.dart';
 import 'package:women_safety_app/utils/utils.dart';
@@ -8,8 +10,10 @@ import 'package:women_safety_app/utils/utils.dart';
 class AuthRepo {
   UserRepo userRepo = UserRepo();
   FirebaseAuth auth = FirebaseAuth.instance;
+  final _firestore = FirebaseFirestore.instance;
+  final _fcm = FirebaseMessaging.instance;
 
-  signIn(String email, String password,BuildContext context) async {
+  signIn(String email, String password, BuildContext context) async {
     UserCredential? userCredential;
     try {
       userCredential = await FirebaseAuth.instance
@@ -17,18 +21,14 @@ class AuthRepo {
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');
-        showSnackBar(
-          context, 'No user found for that email.');
+        showSnackBar(context, 'No user found for that email.');
       } else if (e.code == 'wrong-password') {
         print('Wrong password provided for that user.');
-        showSnackBar(
-          context, 'Wrong password provided for that user.');
+        showSnackBar(context, 'Wrong password provided for that user.');
       } else {
-        showSnackBar(
-          context, e.message!);
+        showSnackBar(context, e.message!);
       }
-      showSnackBar(
-          context, e.message!);
+      showSnackBar(context, e.message!);
     }
 
     if (userCredential != null) {
@@ -80,7 +80,6 @@ class AuthRepo {
   }) async {
     UserCredential? userCredential;
     try {
-      
       userCredential = await auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
@@ -111,18 +110,39 @@ class AuthRepo {
   }
 
   // RESET PASSWORD
-  Future<void> resetPassword(BuildContext context,String email) async {
+  Future<void> resetPassword(BuildContext context, String email) async {
     try {
-      await FirebaseAuth.instance
-    .sendPasswordResetEmail(email: email);
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
       showSnackBar(context, 'Password reset link sent!');
     } on FirebaseAuthException catch (e) {
       showSnackBar(context, e.message!); // Display error message
     }
   }
-  
 
   logOut() async {
     await FirebaseAuth.instance.signOut();
+  }
+
+  Future<String?> saveDeviceToken(String id) async {
+    // Get the current user
+    String? uid = auth.currentUser?.uid;
+
+    if (uid != null) {
+      // Get the token for this device
+      String? fcmToken = await _fcm.getToken();
+
+      // Save it to Firestore
+      if (fcmToken != null) {
+        // DocumentReference tokens =
+        await _firestore.collection('users').doc(id).set({
+          'notifToken': fcmToken,
+        });
+        return fcmToken;
+      } else {
+        return null;
+      }
+    } else {
+      return null;
+    }
   }
 }

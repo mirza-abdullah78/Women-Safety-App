@@ -58,11 +58,17 @@ android {
             signingConfig signingConfigs.debug
         }
     }
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude("META-INF/*") 
+    }
 }
 
 flutter {
     source '../..'
 }
+
+  
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"

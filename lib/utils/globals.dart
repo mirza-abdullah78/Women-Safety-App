@@ -15,6 +15,7 @@ final LocationRepo locations = LocationRepo();
 final OrderRepo orderRepo = OrderRepo();
 final VideoRepo videoRepo = VideoRepo();
 
+String? notifToken;
 User? currentUserGlobal;
 ValueNotifier<List<StoreProduct>> cart = ValueNotifier([]);
 const MediaQueryData? size = const MediaQueryData();

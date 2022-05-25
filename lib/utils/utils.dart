@@ -2,6 +2,7 @@
 
 import 'dart:typed_data';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -153,10 +154,12 @@ Future<String?> loadAssetsWeb() async {
 }
 
 Future<String?> loadVideosWeb() async {
-  Uint8List? bytesFromPicker;
+  // File? bytesFromPicker;
+
+  FilePickerResult? bytesFromPicker;
   try {
-    // comment for web
-    bytesFromPicker = await ImagePickerWeb.getVideoAsBytes();
+    bytesFromPicker = await FilePicker.platform.pickFiles(type: FileType.video);
+        // await ImagePickerWeb.getVideoAsFile(); // .getVideoAsBytes();
   } catch (e, s) {
     print(e);
     print(s);
@@ -164,9 +167,7 @@ Future<String?> loadVideosWeb() async {
   // print(bytesFromPicker);
   String? url;
   if (bytesFromPicker != null) {
-    url = await videoRepo.uploadVideo(
-      bytesFromPicker,''
-    );
+    url = await videoRepo.uploadVideo(bytesFromPicker.files.first, '');
     return url;
   } else {
     Fluttertoast.showToast(

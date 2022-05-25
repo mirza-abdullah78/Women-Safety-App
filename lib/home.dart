@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:women_safety_app/screens/auth/login.dart';
 import 'package:women_safety_app/screens/dashboard/dashboard_page.dart';
 import 'package:women_safety_app/screens/dashboard/web_dashboard.dart';
+import 'package:women_safety_app/utils/firebase_push_notification_service.dart';
 import 'package:women_safety_app/utils/globals.dart';
 
 class HomePage extends StatelessWidget {
@@ -17,13 +18,19 @@ class HomePage extends StatelessWidget {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
+            saveDeviceToken();
+            if(!kIsWeb) {
+              initNotifs(context);
+            }
             User _user = snapshot.data as User;
             if (_user.emailVerified) {
-              return kIsWeb? WebDashboard(
-                userId: _user.uid,
-              ): DashboardPage(
-                userId: _user.uid,
-              );
+              return kIsWeb
+                  ? WebDashboard(
+                      userId: _user.uid,
+                    )
+                  : DashboardPage(
+                      userId: _user.uid,
+                    );
             } else {
               return LayoutBuilder(
                 builder: (context, constraints) {

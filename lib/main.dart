@@ -1,9 +1,16 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:women_safety_app/home.dart';
 import 'package:women_safety_app/screens/auth/login.dart';
 import 'package:women_safety_app/screens/auth/sign_in_screen.dart';
+
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  print('********-----Background Message-------*******');
+}
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,6 +29,7 @@ void main() async {
   } else {
     await Firebase.initializeApp();
   }
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   runApp(const MyApp());
 }

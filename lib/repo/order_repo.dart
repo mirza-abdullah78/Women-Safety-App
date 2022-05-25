@@ -18,11 +18,43 @@ class OrderRepo {
     return _firestore.collection('orders').snapshots();
   }
 
+  Stream<QuerySnapshot> getUserOrdersStream(String id) {
+    return _firestore
+        .collection('orders')
+        .where('orderBy.id', isEqualTo: id)
+        .snapshots();
+  }
+
   Future<bool> addNewOrder(Order order) async {
     print('-------- add new product function ---------');
     DocumentReference docRef = _firestore.collection('orders').doc();
 
+    QuerySnapshot qs = await _firestore.collection('orders').get();
+    int orderNumber = 1;
+    if (qs.docs != null && qs.docs.isNotEmpty) {
+      orderNumber = qs.docs.length + 1;
+    }
+
+    for (var element in order.products) {
+      await _firestore
+          .collection('products')
+          .doc(element['productId'])
+          .get()
+          .then((value) {
+        Map<String,dynamic>? tempMap = value.data();
+        if(tempMap != null && tempMap.isNotEmpty && tempMap['quantity'] > 0) {
+          _firestore
+            .collection('products')
+            .doc(element['productId'])
+            .set({
+              'quantity': tempMap['quantity'] - 1
+            }, SetOptions(merge: true));
+        }
+      });
+    }
+
     order.id = docRef.id;
+    order.orderNumber = orderNumber;
 
     return await _firestore
         .collection('orders')
@@ -38,7 +70,7 @@ class OrderRepo {
       return false;
     });
   }
-    
+
   Future<bool> editProduct(StoreProduct product) async {
     return await _firestore
         .collection('products')
@@ -55,12 +87,11 @@ class OrderRepo {
     });
   }
 
-  Future<bool> updateStatus(Order order,String status) async {
+  Future<bool> updateStatus(Order order, String status) async {
     return await _firestore
         .collection('orders')
         .doc(order.id)
-        .set({'status':status}, SetOptions(merge: true))
-        .then((value) {
+        .set({'status': status}, SetOptions(merge: true)).then((value) {
       print('-------- Order updated---------');
       return true;
     }).catchError((e, s) {

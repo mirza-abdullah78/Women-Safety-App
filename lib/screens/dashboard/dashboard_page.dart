@@ -15,6 +15,7 @@ import 'package:women_safety_app/screens/profile/profile_screen.dart';
 import 'package:women_safety_app/screens/setting/settings.dart';
 import 'package:women_safety_app/screens/store/store_screen.dart';
 import 'package:women_safety_app/screens/videos/video_screen.dart';
+import 'package:women_safety_app/utils/firebase_push_notification_service.dart';
 import 'package:women_safety_app/utils/globals.dart';
 import 'package:women_safety_app/utils/utils.dart';
 
@@ -125,6 +126,73 @@ class _DashboardPageState extends State<DashboardPage> with RouteAware {
             User currentUser = User.fromJson(snapshot.data!.data()!);
             currentUserGlobal = currentUser;
             print(currentUser.toJson());
+            if(currentUser.isBlocked){
+               return LayoutBuilder(
+                builder: (context, constraints) {
+                  return SizedBox(
+                    height: constraints.maxHeight,
+                    width: constraints.maxWidth,
+                    child: Center(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.block ,
+                            size: 100,
+                            color: Colors.red.shade400,
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Text(
+                            'Blocked !',
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline1!
+                                .copyWith(
+                                    fontSize: 24,
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.w700),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            'Please contact admin to continue.',
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline1!
+                                .copyWith(
+                                    fontSize: 18,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w400),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          ElevatedButton(
+                              onPressed: () {
+                                authRepo.logOut();
+                              },
+                              child: Text(
+                                'Log out',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .copyWith(
+                                        color: Colors.white,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w700),
+                              )),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              );
+            }
             return AdvancedDrawer(
               backdropColor: Colors.blueGrey,
               controller: _advancedDrawerController,
@@ -343,6 +411,17 @@ class _DashboardPageState extends State<DashboardPage> with RouteAware {
                                                           Radius.circular(140)),
                                                   color: Colors.red.shade100),
                                               child: ElevatedButton(
+                                                // onPressed: () async {
+                                                //   if (notifToken != null) {
+                                                //     print(
+                                                //         ' -- notif token ---------> $notifToken \n\n');
+                                                //     await sendNotification(
+                                                //         notifToken!);
+                                                //   } else {
+                                                //     print('\n\n--------- notif token is null ----------\n\n');
+                                                //   }
+                                                // },
+                                                
                                                 onPressed: () async {
                                                   Position currPosition =
                                                       await locations
@@ -453,6 +532,7 @@ class _DashboardPageState extends State<DashboardPage> with RouteAware {
                                                             Colors.white);
                                                   }
                                                 },
+
                                                 style: ElevatedButton.styleFrom(
                                                   elevation: 5,
                                                   primary: Colors.red,
@@ -667,8 +747,8 @@ class _DashboardPageState extends State<DashboardPage> with RouteAware {
                               MaterialPageRoute(
                                   builder: (context) => VideoScreen()));
                         },
-                        leading: const Icon(Icons.video_file_sharp),
-                        title: const Text('Tutorials'),
+                        leading: const Icon(Icons.play_arrow),
+                        title: const Text('Videos'),
                       ),
                       // ListTile(
                       //   onTap: () {},
