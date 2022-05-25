@@ -63,11 +63,11 @@ class UserRepo {
   }
 
   Future<bool> setTrusties(
-      String id, Map trusties, Map emergencyContacts) async {
+      String id, Map trusties, Map emergencyContacts,String defaultTrusty) async {
     return _firestore
         .collection('users')
         .doc(id)
-        .set({'trusties': trusties, 'emergencyContacts': emergencyContacts},
+        .set({'trusties': trusties, 'emergencyContacts': emergencyContacts,'defaultTrusty':defaultTrusty},
             SetOptions(merge: true))
         .then((value) => true)
         .catchError((e, s) {

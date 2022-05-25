@@ -22,6 +22,7 @@ class _SettingsPageState extends State<SettingsPage> {
   // Map trusties = {};
   ValueNotifier<Map> trusties = ValueNotifier({});
   ValueNotifier<String> contactNumber = ValueNotifier('');
+  ValueNotifier<String> defaultNumber = ValueNotifier('');
   Map emergencyNumbers = {};
   User? currentUser;
   GlobalKey<FormState>? formKey;
@@ -37,6 +38,10 @@ class _SettingsPageState extends State<SettingsPage> {
     if (currentUser?.trusties != null) {
       print('*************** not null **********');
       trusties.value = currentUser!.trusties!;
+    }
+    if (currentUser?.defaultTrusty != null) {
+      print('*************** not null **********');
+      defaultNumber.value = currentUser!.defaultTrusty!;
     }
     if (currentUser?.emergencyContacts != null) {
       print('*************** not null **********');
@@ -178,52 +183,55 @@ class _SettingsPageState extends State<SettingsPage> {
                     flex: 1,
                     child: InkWell(
                       onTap: () {
-                        if (currentUser!.defaultTrusty! ==
-                            trusty['phoneNumber']) {
-                          userRepo.setDefaultTrusty(currentUser!.id!, '');
-                          trusties.notifyListeners();
+                        if (defaultNumber.value == trusty['phoneNumber']) {
+                          defaultNumber.value = '';
+                          defaultNumber.notifyListeners();
                         } else {
-                          userRepo.setDefaultTrusty(
-                              currentUser!.id!, trusty['phoneNumber']);
+                          defaultNumber.value = trusty['phoneNumber'];
+                          defaultNumber.notifyListeners();
                         }
                       },
                       child: Container(
                         alignment: Alignment.center,
                         child: Center(
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Icon(
-                                Mdi.cursorDefault,
-                                color: currentUser!.defaultTrusty! ==
-                                        trusty['phoneNumber']
-                                    ? Colors.red.shade300
-                                    : Color(0xff757575),
-                                size: 20,
-                              ),
-                              const SizedBox(
-                                width: 8,
-                              ),
-                              Text(
-                                currentUser!.defaultTrusty! ==
-                                        trusty['phoneNumber']
-                                    ? 'Remove Default'
-                                    : 'Set Default',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyText1!
-                                    .copyWith(
-                                        color: currentUser!.defaultTrusty! ==
-                                                trusty['phoneNumber']
-                                            ? Colors.red.shade300
-                                            : AppColors.primaryColor,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500),
-                              )
-                            ],
-                          ),
+                          child: ValueListenableBuilder(
+                              valueListenable: defaultNumber,
+                              builder: (context, number, _) {
+                                return Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    Icon(
+                                      Mdi.cursorDefault,
+                                      color: defaultNumber.value ==
+                                              trusty['phoneNumber']
+                                          ? Colors.red.shade300
+                                          : Color(0xff757575),
+                                      size: 20,
+                                    ),
+                                    const SizedBox(
+                                      width: 8,
+                                    ),
+                                    Text(
+                                      defaultNumber.value ==
+                                              trusty['phoneNumber']
+                                          ? 'Remove Default'
+                                          : 'Set Default',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyText1!
+                                          .copyWith(
+                                              color: defaultNumber.value ==
+                                                      trusty['phoneNumber']
+                                                  ? Colors.red.shade300
+                                                  : AppColors.primaryColor,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w500),
+                                    )
+                                  ],
+                                );
+                              }),
                         ),
                       ),
                     ),
@@ -346,6 +354,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                       : '',
                               label: 'Phone Number',
                               hint: 'Enter phone number',
+                              keyboardType: TextInputType.phone,
                               trailing: IconButton(
                                 onPressed: () async {
                                   final PhoneContact contact =
@@ -377,6 +386,8 @@ class _SettingsPageState extends State<SettingsPage> {
                               onValitdate: (v) {
                                 if (v == null || v.isEmpty) {
                                   return 'Phone cannot be null';
+                                } else if (v.contains(RegExp(r'[a-z]'))) {
+                                  return 'Phone number must contains number only';
                                 } else if (v.length < 11) {
                                   return 'Phone number must contains 11 numbers';
                                 } else {
@@ -499,6 +510,10 @@ class _SettingsPageState extends State<SettingsPage> {
                                         MaterialStateProperty.all(Colors.red)),
                                 onPressed: () {
                                   trusties.value.remove(trusty['phoneNumber']);
+                                  if (defaultNumber.value ==
+                                      trusty['phoneNumber']) {
+                                    defaultNumber.value = '';
+                                  }
                                   trusties.notifyListeners();
                                   Navigator.pop(context);
                                 },
@@ -550,8 +565,8 @@ class _SettingsPageState extends State<SettingsPage> {
                   isLoading = true;
                 });
                 bool response = await userRepo
-                    .setTrusties(
-                        currentUser!.id!, trusties.value, emergencyNumbers)
+                    .setTrusties(currentUser!.id!, trusties.value,
+                        emergencyNumbers, defaultNumber.value)
                     .then((value) {
                   setBodyState(() {
                     isLoading = false;
@@ -670,6 +685,8 @@ class _SettingsPageState extends State<SettingsPage> {
                           onValitdate: (v) {
                             if (v == null || v.isEmpty) {
                               return 'Number cannot be null';
+                            } else if (v.contains(RegExp(r'[a-z]'))) {
+                              return 'Field must contains number only';
                             } else {
                               return null;
                             }
@@ -690,6 +707,8 @@ class _SettingsPageState extends State<SettingsPage> {
                           onValitdate: (v) {
                             if (v == null || v.isEmpty) {
                               return 'Number cannot be null';
+                            } else if (v.contains(RegExp(r'[a-z]'))) {
+                              return 'Field must contains number only';
                             } else {
                               return null;
                             }

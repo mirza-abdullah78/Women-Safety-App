@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:mdi/mdi.dart';
 import 'package:women_safety_app/models/user.dart';
 import 'package:women_safety_app/screens/dashboard/dashboard_page.dart';
 import 'package:women_safety_app/screens/dashboard/web_dashboard.dart';
+import 'package:women_safety_app/screens/profile/custom_notification_alert.dart';
 import 'package:women_safety_app/screens/profile/manage_users.dart';
 import 'package:women_safety_app/screens/profile/profile_screen.dart';
 import 'package:women_safety_app/screens/orders/manage_orders.dart';
@@ -76,7 +78,7 @@ class _CustomWebDrawerState extends State<CustomWebDrawer> {
                             )));
               },
               leading: const Icon(Icons.account_circle_rounded),
-              title: const Text('Profile'),
+              title: const Text('Manage Profile'),
             ),
             ListTile(
               onTap: () {
@@ -84,7 +86,7 @@ class _CustomWebDrawerState extends State<CustomWebDrawer> {
                     MaterialPageRoute(builder: (context) => StoreScreen()));
               },
               leading: const Icon(Icons.store),
-              title: const Text('Store'),
+              title: const Text('Manage Store'),
             ),
             // ListTile(
             //   onTap: () {},
@@ -99,7 +101,7 @@ class _CustomWebDrawerState extends State<CustomWebDrawer> {
                         builder: (context) => VideoScreen()));
               },
               leading: const Icon(Icons.play_arrow),
-              title: const Text('Videos'),
+              title: const Text('Manage Videos'),
             ),
             ListTile(
               onTap: () {
@@ -108,8 +110,13 @@ class _CustomWebDrawerState extends State<CustomWebDrawer> {
                     MaterialPageRoute(
                         builder: (context) => ManageOrdersScreen()));
               },
-              leading: const Icon(Icons.manage_history),
+              leading: const Icon(Mdi.cartArrowUp),
               title: const Text('Manage Orders'),
+            ),
+            ListTile(
+              onTap: () => showNotificationAlert(context),
+              leading: const Icon(Icons.notification_add),
+              title: const Text('Send Notification'),
             ),
             ListTile(
               onTap: () {

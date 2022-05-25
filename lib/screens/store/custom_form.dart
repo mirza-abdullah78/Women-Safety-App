@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:women_safety_app/models/product.dart';
 import 'package:women_safety_app/screens/dashboard/custom_text_field.dart';
@@ -206,7 +207,8 @@ class _NewProductFormState extends State<NewProductForm> {
             CustomTextField(
               label: 'Price',
               hint: 'Enter Price',
-              initialValue: product?.quantity?.toString() ?? '',
+              initialValue: product?.price?.toString() ?? '',
+              keyboardType: TextInputType.number,
               onSaved: (v) {
                 if (v != null) {
                   price = int.parse(v.trim());
@@ -215,6 +217,9 @@ class _NewProductFormState extends State<NewProductForm> {
               onValitdate: (v) {
                 if (v == null || v.isEmpty) {
                   return 'Field cannot be null';
+                }
+                 else if (v.contains(RegExp(r'[a-z]'))) {
+                  return 'Field must contains number only';
                 } else {
                   return null;
                 }
@@ -227,6 +232,7 @@ class _NewProductFormState extends State<NewProductForm> {
               label: 'Quantity',
               hint: 'Enter quantity',
               initialValue: product?.quantity?.toString() ?? '',
+              keyboardType: TextInputType.number,
               onSaved: (v) {
                 if (v != null) {
                   quantity = int.parse(v.trim());
@@ -235,6 +241,8 @@ class _NewProductFormState extends State<NewProductForm> {
               onValitdate: (v) {
                 if (v == null || v.isEmpty) {
                   return 'Field cannot be null';
+                } else if (v.contains(RegExp(r'[a-z]'))) {
+                  return 'Field must contains number only';
                 } else {
                   return null;
                 }

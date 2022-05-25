@@ -49,7 +49,10 @@ class OrderRepo {
             .set({
               'quantity': tempMap['quantity'] - 1,
               if(tempMap['totalOrders'] != null)
-                'totalOrders': FieldValue.arrayUnion([order.id])
+                'totalOrders': FieldValue.arrayUnion([order.id]),
+              if(tempMap['totalOrders'] == null)
+                'totalOrders': [order.id]  
+              
             }, SetOptions(merge: true));
         }
       });

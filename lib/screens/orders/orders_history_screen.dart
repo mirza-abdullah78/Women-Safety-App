@@ -59,6 +59,23 @@ class _OrdersHistoryScreenState extends State<OrdersHistoryScreen> {
                               // ignore: prefer_const_literals_to_create_immutables
                               children: [
                                 const Text(
+                                  'Order Number:',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                Text(
+                                  order.orderNumber!.toString(),
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              // ignore: prefer_const_literals_to_create_immutables
+                              children: [
+                                const Text(
                                   'Delivery:',
                                   style: TextStyle(color: Colors.white),
                                 ),
@@ -93,11 +110,11 @@ class _OrdersHistoryScreenState extends State<OrdersHistoryScreen> {
                               // ignore: prefer_const_literals_to_create_immutables
                               children: [
                                 const Text(
-                                  'CoD:',
+                                  'Payment:',
                                   style: TextStyle(color: Colors.white),
                                 ),
                                 Text(
-                                  order.isCOD!.toString(),
+                                  order.isCOD!?'CoD':'NA'.toString(),
                                   style: const TextStyle(color: Colors.white),
                                 ),
                               ],

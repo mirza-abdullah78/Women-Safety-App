@@ -2,7 +2,7 @@ class StoreProduct {
   String? id, title, articleId, productPhoto;
   bool isAvailable, isDisable;
   int? quantity, price;
-  List? reviews;
+  List? reviews,totalOrders;
 
   StoreProduct(this.title, this.articleId, this.productPhoto,
       this.quantity, this.isAvailable, this.price, this.isDisable,this.reviews);
@@ -30,5 +30,6 @@ class StoreProduct {
         isAvailable = jsonData['isAvailable'] ?? false,
         isDisable = jsonData['isDisable'] ?? false,
         price = jsonData['price'],
+        totalOrders = jsonData['totalOrders'] ?? [],
         reviews = jsonData['reviews'];
 }

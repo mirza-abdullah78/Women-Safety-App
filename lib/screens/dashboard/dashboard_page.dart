@@ -54,67 +54,67 @@ class _DashboardPageState extends State<DashboardPage> with RouteAware {
     _advancedDrawerController.showDrawer();
   }
 
-  void showSettingModalBottomSheet() {
-    showModalBottomSheet(
-        context: context,
-        isScrollControlled: true,
-        // isDismissible: true,
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(25), topRight: Radius.circular(25))),
-        builder: (context) {
-          return Container(
-            // height: 0.7 * MediaQuery.of(context).size.height,
-            // padding: const EdgeInsets.all(20),
-            decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(25),
-                  topRight: Radius.circular(25),
-                )),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Flexible(
-                    child: IconButton(
-                        onPressed: () => Navigator.pop(context),
-                        icon: const Icon(Icons.arrow_back)),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: CustomTextField(
-                      label: 'Manage Trusty',
-                      hint: '03331234123',
-                      initialValue: '03338682868',
-                      onSaved: (v) {
-                        // email = v.trim();
-                      },
-                      onValitdate: (v) {
-                        if (v == null || v.isEmpty) {
-                          return 'Name cannot be null';
-                        } else if (!v.contains('@')) {
-                          return 'Please enter valid email';
-                        } else {
-                          return '';
-                        }
-                      },
-                    ),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.all(20.0),
-                    child: CustomButton(
-                      title: 'Save',
-                    ),
-                  )
-                ],
-              ),
-            ),
-          );
-        });
-  }
+  // void showSettingModalBottomSheet() {
+  //   showModalBottomSheet(
+  //       context: context,
+  //       isScrollControlled: true,
+  //       // isDismissible: true,
+  //       shape: const RoundedRectangleBorder(
+  //           borderRadius: BorderRadius.only(
+  //               topLeft: Radius.circular(25), topRight: Radius.circular(25))),
+  //       builder: (context) {
+  //         return Container(
+  //           // height: 0.7 * MediaQuery.of(context).size.height,
+  //           // padding: const EdgeInsets.all(20),
+  //           decoration: const BoxDecoration(
+  //               color: Colors.white,
+  //               borderRadius: BorderRadius.only(
+  //                 topLeft: Radius.circular(25),
+  //                 topRight: Radius.circular(25),
+  //               )),
+  //           child: SingleChildScrollView(
+  //             child: Column(
+  //               crossAxisAlignment: CrossAxisAlignment.start,
+  //               mainAxisAlignment: MainAxisAlignment.start,
+  //               mainAxisSize: MainAxisSize.min,
+  //               children: [
+  //                 Flexible(
+  //                   child: IconButton(
+  //                       onPressed: () => Navigator.pop(context),
+  //                       icon: const Icon(Icons.arrow_back)),
+  //                 ),
+  //                 Padding(
+  //                   padding: const EdgeInsets.all(20.0),
+  //                   child: CustomTextField(
+  //                     label: 'Manage Trusty',
+  //                     hint: '03331234123',
+  //                     initialValue: '03338682868',
+  //                     onSaved: (v) {
+  //                       // email = v.trim();
+  //                     },
+  //                     onValitdate: (v) {
+  //                       if (v == null || v.isEmpty) {
+  //                         return 'Name cannot be null';
+  //                       } else if (!v.contains('@')) {
+  //                         return 'Please enter valid email';
+  //                       } else {
+  //                         return '';
+  //                       }
+  //                     },
+  //                   ),
+  //                 ),
+  //                 const Padding(
+  //                   padding: EdgeInsets.all(20.0),
+  //                   child: CustomButton(
+  //                     title: 'Save',
+  //                   ),
+  //                 )
+  //               ],
+  //             ),
+  //           ),
+  //         );
+  //       });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -518,7 +518,7 @@ class _DashboardPageState extends State<DashboardPage> with RouteAware {
                                                       }
                                                     });
                                                     await makePhoneCall(
-                                                        currentUser
+                                                        currentUser.defaultTrusty != null && currentUser.defaultTrusty!.isNotEmpty ? currentUser.defaultTrusty:currentUser
                                                             .trusties!.keys
                                                             .toList()
                                                             .first);

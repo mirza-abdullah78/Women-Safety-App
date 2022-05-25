@@ -297,17 +297,17 @@ class _CartScreenState extends State<CartScreen> {
                   ),
                 ),
                 const SizedBox(height: 10),
-                GooglePayButton(
-                  paymentConfigurationAsset: 'default_payment_profile_google_pay.json',
-                  paymentItems: [PaymentItem(amount: total.toString())],
-                  style: GooglePayButtonStyle.black,
-                  type: GooglePayButtonType.pay,
-                  margin: const EdgeInsets.only(top: 15.0),
-                  onPaymentResult: onGooglePayResult,
-                  loadingIndicator: const Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                ),
+                // GooglePayButton(
+                //   paymentConfigurationAsset: 'default_payment_profile_google_pay.json',
+                //   paymentItems: [PaymentItem(amount: total.toString())],
+                //   style: GooglePayButtonStyle.black,
+                //   type: GooglePayButtonType.pay,
+                //   margin: const EdgeInsets.only(top: 15.0),
+                //   onPaymentResult: onGooglePayResult,
+                //   loadingIndicator: const Center(
+                //     child: CircularProgressIndicator(),
+                //   ),
+                // ),
               ],
             ),
           );

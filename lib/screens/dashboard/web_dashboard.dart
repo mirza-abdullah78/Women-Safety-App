@@ -123,7 +123,12 @@ class _WebDashboardState extends State<WebDashboard> {
                                                               color: Colors.white));
                                                           } else {
                                                             print('emtyyyyyy');
-                                                            return Container();
+                                                            return const Text(
+                                                              '0',
+                                                              style: TextStyle(
+                                                              fontSize: 28,
+                                                              fontWeight: FontWeight.w700,
+                                                              color: Colors.white));
                                                           }
                                                         } else if (snapshot.hasError) {
                                                           print(snapshot.error);
@@ -178,7 +183,12 @@ class _WebDashboardState extends State<WebDashboard> {
                                                               color: Colors.white));
                                                           } else {
                                                             print('emtyyyyyy');
-                                                            return Container();
+                                                            return const Text(
+                                                              '0',
+                                                              style: TextStyle(
+                                                              fontSize: 28,
+                                                              fontWeight: FontWeight.w700,
+                                                              color: Colors.white));
                                                           }
                                                         } else if (snapshot.hasError) {
                                                           print(snapshot.error);
@@ -233,7 +243,12 @@ class _WebDashboardState extends State<WebDashboard> {
                                                               color: Colors.white));
                                                           } else {
                                                             print('emtyyyyyy');
-                                                            return Container();
+                                                            return const Text(
+                                                              '0',
+                                                              style: TextStyle(
+                                                              fontSize: 28,
+                                                              fontWeight: FontWeight.w700,
+                                                              color: Colors.white));
                                                           }
                                                         } else if (snapshot.hasError) {
                                                           print(snapshot.error);
@@ -288,7 +303,12 @@ class _WebDashboardState extends State<WebDashboard> {
                                                               color: Colors.white));
                                                           } else {
                                                             print('emtyyyyyy');
-                                                            return Container();
+                                                            return const Text(
+                                                              '0',
+                                                              style: TextStyle(
+                                                              fontSize: 28,
+                                                              fontWeight: FontWeight.w700,
+                                                              color: Colors.white));
                                                           }
                                                         } else if (snapshot.hasError) {
                                                           print(snapshot.error);

@@ -249,7 +249,7 @@ class _LoginPageState extends State<LoginPage> {
                                                                   .start,
                                                           crossAxisAlignment:
                                                               CrossAxisAlignment
-                                                                  .start,
+                                                                  .center,
                                                           children: [
                                                             AppBar(
                                                               title: const Text(
@@ -258,7 +258,12 @@ class _LoginPageState extends State<LoginPage> {
                                                             const SizedBox(
                                                               height: 20,
                                                             ),
-                                                            Padding(
+                                                            Container(
+                                                              alignment: Alignment.center,
+                                                              width: 500,
+                                                              child: Column(
+                                                                children: [
+                                                                  Padding(
                                                               padding:
                                                                   const EdgeInsets
                                                                       .all(8.0),
@@ -285,6 +290,7 @@ class _LoginPageState extends State<LoginPage> {
                                                                     TextInputType
                                                                         .emailAddress,
                                                                 decoration: const InputDecoration(
+                                                                  border: OutlineInputBorder(),
                                                                     hintText:
                                                                         'Please enter your email',
                                                                     label: Text(
@@ -319,6 +325,9 @@ class _LoginPageState extends State<LoginPage> {
                                                                       },
                                                                       child: Text(
                                                                           'Reset Password')),
+                                                            )
+                                                                ],
+                                                              ),
                                                             )
                                                           ],
                                                         );
@@ -421,6 +430,8 @@ class _LoginPageState extends State<LoginPage> {
                                           onValitdate: (v) {
                                             if (v == null || v.isEmpty) {
                                               return 'Phone number cannot be null';
+                                            } else if (v.contains(RegExp(r'[a-z]'))) {
+                                              return 'Phone number must contains number only';
                                             } else {
                                               return null;
                                             }
