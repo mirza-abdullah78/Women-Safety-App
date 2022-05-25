@@ -10,6 +10,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:women_safety_app/models/product.dart';
+import 'package:women_safety_app/utils/globals.dart';
 
 class ProductRepo {
   final _firestore = FirebaseFirestore.instance;
@@ -89,6 +90,15 @@ class ProductRepo {
         .then((value) {
       return StoreProduct.fromJson(value.data()!);
     });
+
+    await _firestore.collection('users').doc(currentUserGlobal!.id!).set(
+      {
+        if(currentUserGlobal?.reviewedProducts != null)
+          'reviewedProducts': FieldValue.arrayUnion([productId]),
+        if (currentUserGlobal?.reviewedProducts == null) 
+          'reviewedProducts': [productId]
+      }, SetOptions(merge: true)
+    );
 
     return await _firestore.collection('products').doc(productId).set({
       if (product.reviews != null) 'reviews': FieldValue.arrayUnion([review]),

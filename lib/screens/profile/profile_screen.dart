@@ -66,11 +66,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 child: updatedUser!.profilePhoto != null &&
                                         updatedUser!.profilePhoto != ''
                                     ? InkWell(
-                                        onTap: () {
-                                          if (kIsWeb) {
-                                            loadAssetsWeb();
-                                          } else {
-                                            loadAssets(context, currentUser!);
+                                        onTap: () async {
+                                          String? url =  await loadAssets(
+                                              context, currentUser!);
+                                          print('-------- url -------->>> $url');
+                                          if (url != null && url.isNotEmpty) {
+                                            setBodyState(() {
+                                              updatedUser!.profilePhoto = url;
+                                            });
                                           }
                                         },
                                         child: ClipOval(

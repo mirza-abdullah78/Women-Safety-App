@@ -158,7 +158,7 @@ class _ManageUsersScreenState extends State<ManageUsersScreen> {
                               gridDelegate:
                                   const SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 4,
-                                mainAxisExtent: 180,
+                                mainAxisExtent: 220,
                                 crossAxisSpacing: 20,
                                 mainAxisSpacing: 20,
                               ),

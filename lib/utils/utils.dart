@@ -3,12 +3,13 @@
 import 'dart:typed_data';
 
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 //Comment for web
-import 'package:image_picker_web/image_picker_web.dart';
+// import 'package:image_picker_web/image_picker_web.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:women_safety_app/models/user.dart';
 import 'package:women_safety_app/utils/globals.dart';
@@ -45,30 +46,34 @@ Future<String?> loadAssets(BuildContext context, User currentUser) async {
   ImagePicker imagePicker = ImagePicker();
   var imageSource;
 
-  try {
-    imageSource = await showDialog<ImageSource>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text("Select the image source"),
-        actions: <Widget>[
-          // ignore: deprecated_member_use
-          FlatButton(
-            padding: EdgeInsets.all(10),
-            child: Text("Camera"),
-            onPressed: () => Navigator.pop(context, ImageSource.camera),
-          ),
-          FlatButton(
-            padding: EdgeInsets.all(10),
-            child: Text("Gallery"),
-            onPressed: () => Navigator.pop(context, ImageSource.gallery),
-          ),
-        ],
-      ),
-    );
-  } catch (ex, s) {
-    print(ex);
-    print(s);
-    // return '';
+  if (!kIsWeb) {
+    try {
+      imageSource = await showDialog<ImageSource>(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text("Select the image source"),
+          actions: <Widget>[
+            // ignore: deprecated_member_use
+            FlatButton(
+              padding: EdgeInsets.all(10),
+              child: Text("Camera"),
+              onPressed: () => Navigator.pop(context, ImageSource.camera),
+            ),
+            FlatButton(
+              padding: EdgeInsets.all(10),
+              child: Text("Gallery"),
+              onPressed: () => Navigator.pop(context, ImageSource.gallery),
+            ),
+          ],
+        ),
+      );
+    } catch (ex, s) {
+      print(ex);
+      print(s);
+      // return '';
+    }
+  } else {
+    imageSource = ImageSource.gallery;
   }
 
   PickedFile pickedFile;
@@ -133,7 +138,7 @@ Future<String?> loadAssetsWeb() async {
   Uint8List? bytesFromPicker;
   try {
     // comment for web
-    bytesFromPicker = await ImagePickerWeb.getImageAsBytes();
+    // bytesFromPicker = await ImagePickerWeb.getImageAsBytes();
   } catch (e, s) {
     print(e);
     print(s);
@@ -159,7 +164,7 @@ Future<String?> loadVideosWeb() async {
   FilePickerResult? bytesFromPicker;
   try {
     bytesFromPicker = await FilePicker.platform.pickFiles(type: FileType.video);
-        // await ImagePickerWeb.getVideoAsFile(); // .getVideoAsBytes();
+    // await ImagePickerWeb.getVideoAsFile(); // .getVideoAsBytes();
   } catch (e, s) {
     print(e);
     print(s);

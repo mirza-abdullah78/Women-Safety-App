@@ -136,6 +136,7 @@ showOrderDetailsModal(BuildContext context, Order order) {
                             itemCount: order.products.length,
                             itemBuilder: (context, index) {
                               Map product = order.products[index];
+                              bool showReviewButton = false;
                               return Card(
                                 color: Colors.green.shade50,
                                 child: Padding(
@@ -159,9 +160,11 @@ showOrderDetailsModal(BuildContext context, Order order) {
                                       const SizedBox(
                                         height: 10,
                                       ),
+                                      if(!(currentUserGlobal!.reviewedProducts!=null && currentUserGlobal!.reviewedProducts!.contains(product['productId'])))
                                       TextButton(
                                           onPressed: () {
-                                            showFeedbackAlert(context,product['productId']);
+                                            showFeedbackAlert(
+                                                context, product['productId']);
                                           },
                                           child: Text('Give Review'))
                                     ],
@@ -240,8 +243,14 @@ showFeedbackAlert(BuildContext context, String productId) {
           onPressed: () async {
             if (formKey.currentState!.validate()) {
               formKey.currentState!.save();
-              productRepo.addProductReview(
-                  productId, {'rating': rating, 'review': body,'reviewerId':currentUserGlobal!.id!,'reviewerName':currentUserGlobal!.firstName! + ' '+currentUserGlobal!.lastName! });
+              productRepo.addProductReview(productId, {
+                'rating': rating,
+                'review': body,
+                'reviewerId': currentUserGlobal!.id!,
+                'reviewerName': currentUserGlobal!.firstName! +
+                    ' ' +
+                    currentUserGlobal!.lastName!
+              });
               Navigator.pop(context);
             }
           },

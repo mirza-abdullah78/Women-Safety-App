@@ -22,7 +22,7 @@ class _NewProductFormState extends State<NewProductForm> {
   StoreProduct? product;
   StoreProduct? newProduct;
   String? articleId, category, title, photo;
-  int? quantity,price;
+  int? quantity, price;
   final formKey = GlobalKey<FormState>();
   bool isLoading = false;
 
@@ -30,6 +30,7 @@ class _NewProductFormState extends State<NewProductForm> {
   void initState() {
     product = widget.product;
     newProduct = widget.product;
+    photo = widget.product?.productPhoto;
     super.initState();
   }
 
@@ -47,22 +48,38 @@ class _NewProductFormState extends State<NewProductForm> {
                 height: 150,
                 width: 150,
                 alignment: Alignment.center,
-                child: newProduct?.productPhoto != null &&
-                        newProduct!.productPhoto != ''
+                child: photo != null && photo != ''
                     ? isLoading
                         ? const CircularProgressIndicator(
                             color: Colors.blueGrey,
                           )
                         : InkWell(
-                            onTap: () {
-                              loadAssetsWeb();
+                            onTap: () async {
+                              setBodyState(() {
+                                isLoading = true;
+                              });
+                              String? url = await loadAssetsWeb();
+                              print('-------- url -------->>> $url');
+                              print('-------- url  2 -------->>> $url');
+                              if (url != null && url.isNotEmpty) {
+                                print('---- url ----- not null -->$url');
+                                setBodyState(() {
+                                  newProduct!.productPhoto = url;
+                                  photo = url;
+                                  isLoading = false;
+                                });
+                              } else {
+                                setBodyState(() {
+                                  isLoading = false;
+                                });
+                              }
                             },
                             child: ClipOval(
                               child: SizedBox(
                                 height: 100,
                                 width: 100,
                                 child: CachedNetworkImage(
-                                  imageUrl: newProduct!.productPhoto!,
+                                  imageUrl: photo!,//newProduct!.productPhoto!,
                                 ),
                               ),
                             ),
@@ -76,8 +93,9 @@ class _NewProductFormState extends State<NewProductForm> {
                           String? url = await loadAssetsWeb();
                           print('-------- url -------->>> $url');
                           if (url != null && url.isNotEmpty) {
+                            print('---- url ----- not null -->$url');
                             setBodyState(() {
-                              newProduct!.productPhoto = url;
+                              // newProduct!.productPhoto = url;
                               photo = url;
                               isLoading = false;
                             });
@@ -217,8 +235,7 @@ class _NewProductFormState extends State<NewProductForm> {
               onValitdate: (v) {
                 if (v == null || v.isEmpty) {
                   return 'Field cannot be null';
-                }
-                 else if (v.contains(RegExp(r'[a-z]'))) {
+                } else if (v.contains(RegExp(r'[a-z]'))) {
                   return 'Field must contains number only';
                 } else {
                   return null;
@@ -261,8 +278,15 @@ class _NewProductFormState extends State<NewProductForm> {
                       if (formKey.currentState!.validate()) {
                         formKey.currentState!.save();
                         if (widget.isEditForm && product != null) {
-                          StoreProduct tempProduct = StoreProduct(title,
-                              articleId, photo, quantity, true,price,product!.isDisable,product!.reviews?? []);
+                          StoreProduct tempProduct = StoreProduct(
+                              title,
+                              articleId,
+                              photo,
+                              quantity,
+                              true,
+                              price,
+                              product!.isDisable,
+                              product!.reviews ?? []);
                           tempProduct.id = product!.id;
                           productRepo.editProduct(tempProduct).then((value) {
                             if (value) {
@@ -272,8 +296,8 @@ class _NewProductFormState extends State<NewProductForm> {
                           });
                         } else {
                           productRepo
-                              .addNewProduct(StoreProduct(title,
-                                  articleId, photo, quantity, true,price,false,[]))
+                              .addNewProduct(StoreProduct(title, articleId,
+                                  photo, quantity, true, price, false, []))
                               .then((value) {
                             if (value) {
                               showSnackBar(context, 'Product Updated');
@@ -291,29 +315,30 @@ class _NewProductFormState extends State<NewProductForm> {
                             child: Text(widget.isEditForm ? 'Update' : 'Add')),
                       ),
                     )),
-                if(widget.isEditForm)
-                const SizedBox(width: 10,),
-                if(widget.isEditForm)
-                ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(Colors.red)
+                if (widget.isEditForm)
+                  const SizedBox(
+                    width: 10,
                   ),
-                    onPressed: () {
-                      productRepo.deleteProduct(product!)
-                              .then((value) {
-                            if (value) {
-                              showSnackBar(context, 'Product Deleted');
-                              Navigator.pop(context);
-                            }
-                          });
-                    },
-                    child: const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: SizedBox(
-                        width: 100,
-                        child: Center(child: Text('Delete')),
-                      ),
-                    )),
+                if (widget.isEditForm)
+                  ElevatedButton(
+                      style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.red)),
+                      onPressed: () {
+                        productRepo.deleteProduct(product!).then((value) {
+                          if (value) {
+                            showSnackBar(context, 'Product Deleted');
+                            Navigator.pop(context);
+                          }
+                        });
+                      },
+                      child: const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: SizedBox(
+                          width: 100,
+                          child: Center(child: Text('Delete')),
+                        ),
+                      )),
               ],
             ),
           ],

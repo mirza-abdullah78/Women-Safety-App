@@ -35,7 +35,8 @@ class ProductDetails extends StatelessWidget {
               width: kIsWeb? 700:MediaQuery. of(context).size.width,
               child: SingleChildScrollView(
                 child: Column(
-                  mainAxisSize: MainAxisSize.min,
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     getRow('Article Id', product!.articleId!, Colors.black),
                     const SizedBox(
