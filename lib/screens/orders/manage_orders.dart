@@ -21,7 +21,7 @@ class _ManageOrdersScreenState extends State<ManageOrdersScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 80),
       child: GridView(
         shrinkWrap: true,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 4,
           crossAxisSpacing: 10,
           mainAxisSpacing: 40,
@@ -46,7 +46,7 @@ class _ManageOrdersScreenState extends State<ManageOrdersScreen> {
                 child: Container(
                   // height: 100,
                   // width: 220,
-                  padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 40),
+                  padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 38),
                   child: Center(
                     child: Text(total,
                       style: const TextStyle(
@@ -76,7 +76,7 @@ class _ManageOrdersScreenState extends State<ManageOrdersScreen> {
                 child: Container(
                   // height: 100,
                   // width: 220,
-                  padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 40),
+                  padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 38),
                   child: Center(
                     child:Text(completed,
                       style: const TextStyle(
@@ -105,7 +105,7 @@ class _ManageOrdersScreenState extends State<ManageOrdersScreen> {
                 child: Container(
                   // height: 100,
                   // width: 220,
-                  padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 40),
+                  padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 38),
                   child: Center(
                     child: Text(cancelled,
                       style: const TextStyle(
@@ -134,7 +134,7 @@ class _ManageOrdersScreenState extends State<ManageOrdersScreen> {
                 child: Container(
                   // height: 100,
                   // width: 220,
-                  padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 40),
+                  padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 38),
                   child: Center(
                     child: Text(inProcess,
                       style: const TextStyle(

@@ -176,143 +176,145 @@ class _ManageUsersScreenState extends State<ManageUsersScreen> {
                                   //     : Colors.red.shade300,
                                   elevation: 6,
                                   child: Padding(
-                                    padding: const EdgeInsets.all(10),
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          // ignore: prefer_const_literals_to_create_immutables
-                                          children: [
-                                            const Text(
-                                              'Name:',
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.bold  
-                                                ),
-                                            ),
-                                            Text(
-                                              user.firstName! +
-                                                  ' ' +
-                                                  user.lastName!,
-                                              style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.bold  ),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 10,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          // ignore: prefer_const_literals_to_create_immutables
-                                          children: [
-                                            const Text(
-                                              'Phone Number:',
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.bold  ),
-                                            ),
-                                            Text(
-                                              user.phoneNumber!,
-                                              style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.bold  ),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 10,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          // ignore: prefer_const_literals_to_create_immutables
-                                          children: [
-                                            const Text(
-                                              'Email',
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.bold  ),
-                                            ),
-                                            Text(
-                                              user.email ?? '--',
-                                              style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.bold  ),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 10,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          // ignore: prefer_const_literals_to_create_immutables
-                                          children: [
-                                            const Text(
-                                              'Status',
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.bold  ),
-                                            ),
-                                            Text(
-                                              user.isBlocked!
-                                                  ? 'Block'
-                                                  : 'Unblock',
-                                              style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.bold  ),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 20,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceAround,
-                                          children: [
-                                            Expanded(
-                                              child: ElevatedButton(
-                                                onPressed: () {
-                                                  userRepo.updateBlockStatus(
-                                                      user.id!,
-                                                      !user.isBlocked!);
-                                                },
-                                                style: ButtonStyle(
-                                                    backgroundColor:
-                                                        MaterialStateProperty
-                                                            .all(!user.isBlocked!
-                                                                ? Colors.red
-                                                                    .shade300
-                                                                : Colors.green
-                                                                    .shade300)),
-                                                child: Center( //  update
-                                                  child: Text(user.isBlocked!
-                                                      ? 'Unblock'
-                                                      : 'Block'), 
+                                    padding: const EdgeInsets.all(8),
+                                    child: Container(
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            // ignore: prefer_const_literals_to_create_immutables
+                                            children: [
+                                              const Text(
+                                                'Name:',
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.bold  
+                                                  ),
+                                              ),
+                                              Text(
+                                                user.firstName! +
+                                                    ' ' +
+                                                    user.lastName!,
+                                                style: const TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.bold  ),
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(
+                                            height: 10,
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            // ignore: prefer_const_literals_to_create_immutables
+                                            children: [
+                                              const Text(
+                                                'Phone Number:',
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.bold  ),
+                                              ),
+                                              Text(
+                                                user.phoneNumber!,
+                                                style: const TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.bold  ),
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(
+                                            height: 10,
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            // ignore: prefer_const_literals_to_create_immutables
+                                            children: [
+                                              const Text(
+                                                'Email',
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.bold  ),
+                                              ),
+                                              Text(
+                                                user.email ?? '--',
+                                                style: const TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.bold  ),
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(
+                                            height: 10,
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            // ignore: prefer_const_literals_to_create_immutables
+                                            children: [
+                                              const Text(
+                                                'Status',
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.bold  ),
+                                              ),
+                                              Text(
+                                                user.isBlocked!
+                                                    ? 'Block'
+                                                    : 'Unblock',
+                                                style: const TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.bold  ),
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(
+                                            height: 20,
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: [
+                                              Expanded(
+                                                child: ElevatedButton(
+                                                  onPressed: () {
+                                                    userRepo.updateBlockStatus(
+                                                        user.id!,
+                                                        !user.isBlocked!);
+                                                  },
+                                                  style: ButtonStyle(
+                                                      backgroundColor:
+                                                          MaterialStateProperty
+                                                              .all(!user.isBlocked!
+                                                                  ? Colors.red
+                                                                      .shade300
+                                                                  : Colors.green
+                                                                      .shade300)),
+                                                  child: Center( //  update
+                                                    child: Text(user.isBlocked!
+                                                        ? 'Unblock'
+                                                        : 'Block'), 
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                            // const SizedBox(
-                                            //   width: 10,
-                                            // ),
-                                            // Expanded(
-                                            //   child: ElevatedButton(
-                                            //     onPressed: () {},
-                                            //     child: const Center(
-                                            //       child: Text('Edit'),
-                                              //   ),
+                                              // const SizedBox(
+                                              //   width: 10,
                                               // ),
-                                            // ),
-                                          ],
-                                        )
-                                      ],
+                                              // Expanded(
+                                              //   child: ElevatedButton(
+                                              //     onPressed: () {},
+                                              //     child: const Center(
+                                              //       child: Text('Edit'),
+                                                //   ),
+                                                // ),
+                                              // ),
+                                            ],
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 );

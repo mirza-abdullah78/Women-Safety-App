@@ -50,7 +50,7 @@ dependencies:
   image_picker: ^0.8.5+3
   firebase_storage: ^10.2.16
   # Comment for web
-  # image_picker_web: ^2.1.1
+  #  image_picker_web: ^2.1.1
   # video_thumbnail: ^0.5.0
   video_player: ^2.4.2
   file_picker: ^4.5.1
