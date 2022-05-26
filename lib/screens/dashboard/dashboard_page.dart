@@ -126,7 +126,7 @@ class _DashboardPageState extends State<DashboardPage> with RouteAware {
             User currentUser = User.fromJson(snapshot.data!.data()!);
             currentUserGlobal = currentUser;
             print(currentUser.toJson());
-            if(currentUser.isBlocked){
+            if(currentUser.isBlocked!){
                return LayoutBuilder(
                 builder: (context, constraints) {
                   return SizedBox(

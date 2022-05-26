@@ -7,11 +7,11 @@ class User {
       email,
       defaultTrusty;
   Map? trusties, emergencyContacts;
-  bool isAdmin, isBlocked;
+  bool? isAdmin, isBlocked;
   Map? lastLocation;
   List? reviewedProducts;
 
-  User(
+  User({
       this.id,
       this.firstName,
       this.lastName,
@@ -22,7 +22,7 @@ class User {
       this.isAdmin,
       this.isBlocked,
       this.email,
-      this.defaultTrusty);
+      this.defaultTrusty});
 
   Map<String, dynamic> toJson() => {
         '_id': id,

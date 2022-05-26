@@ -48,7 +48,7 @@ class _WebDashboardState extends State<WebDashboard> {
             User currentUser = User.fromJson(snapshot.data!.data()!);
             currentUserGlobal = currentUser;
             print(currentUser.toJson());
-            return currentUser.isAdmin
+            return currentUser.isAdmin!
                 ? Scaffold(
                     appBar: AppBar(
                       title: const Text(
@@ -74,7 +74,9 @@ class _WebDashboardState extends State<WebDashboard> {
                             Container(
                               height: constraints.maxHeight,
                               width: constraints.maxWidth - 240,
-                              padding: const EdgeInsets.symmetric(vertical: 25,),
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 25,
+                              ),
                               color: AppColors.baseBackgroundColor,
                               child: SingleChildScrollView(
                                 child: Column(
@@ -84,56 +86,77 @@ class _WebDashboardState extends State<WebDashboard> {
                                   children: [
                                     // --------------------- Top Cards
                                     Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 80),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 80),
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
-                                                Text(
-                                                'Total Orders',
-                                                style: TextStyle(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.lightGreen.shade400,)),
-                                              const SizedBox(height: 5,),
+                                              Text('Total Orders',
+                                                  style: TextStyle(
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors
+                                                        .lightGreen.shade400,
+                                                  )),
+                                              const SizedBox(
+                                                height: 5,
+                                              ),
                                               Card(
                                                 elevation: 6,
-                                                color: Colors.lightGreen.shade400,
+                                                color:
+                                                    Colors.lightGreen.shade400,
                                                 child: Container(
-                                                  height: 100,
-                                                  width: 220,
-                                                  padding: const EdgeInsets.all(10),
+                                                  height: 100, // update this value
+                                                  width: 220, 
+                                                  padding:
+                                                      const EdgeInsets.all(10),
                                                   child: Center(
                                                     child: StreamBuilder(
-                                                      stream:
-                                                          orderRepo.getAllOrdersStream(),
-                                                      builder: (context, snapshot) {
+                                                      stream: orderRepo
+                                                          .getAllOrdersStream(),
+                                                      builder:
+                                                          (context, snapshot) {
                                                         if (snapshot.hasData) {
-                                                          QuerySnapshot qs = snapshot.data
-                                                              as QuerySnapshot;
+                                                          QuerySnapshot qs =
+                                                              snapshot.data
+                                                                  as QuerySnapshot;
                                                           // print(snapshot);
-                                                          if (qs.docs.isNotEmpty) {
+                                                          if (qs.docs
+                                                              .isNotEmpty) {
                                                             return Text(
-                                                              '${qs.docs.length}',
-                                                              style: const TextStyle(
-                                                              fontSize: 28,
-                                                              fontWeight: FontWeight.w700,
-                                                              color: Colors.white));
+                                                                '${qs.docs.length}',
+                                                                style: const TextStyle(
+                                                                    fontSize:
+                                                                        28,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w700,
+                                                                    color: Colors
+                                                                        .white));
                                                           } else {
                                                             print('emtyyyyyy');
                                                             return const Text(
-                                                              '0',
-                                                              style: TextStyle(
-                                                              fontSize: 28,
-                                                              fontWeight: FontWeight.w700,
-                                                              color: Colors.white));
+                                                                '0',
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        28,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w700,
+                                                                    color: Colors
+                                                                        .white));
                                                           }
-                                                        } else if (snapshot.hasError) {
+                                                        } else if (snapshot
+                                                            .hasError) {
                                                           print(snapshot.error);
                                                           return const Center(
-                                                            child: Text('Error'),
+                                                            child:
+                                                                Text('Error'),
                                                           );
                                                         } else {
                                                           return const Center(
@@ -149,51 +172,70 @@ class _WebDashboardState extends State<WebDashboard> {
                                             ],
                                           ),
                                           Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
-                                                Text(
-                                                'Total Users',
-                                                style: TextStyle(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.deepPurple.shade400,)),
-                                              const SizedBox(height: 5,),
+                                              Text('Total Users',
+                                                  style: TextStyle(
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors
+                                                        .deepPurple.shade400,
+                                                  )),
+                                              const SizedBox(
+                                                height: 5,
+                                              ),
                                               Card(
                                                 elevation: 6,
-                                                color: Colors.deepPurple.shade300,
+                                                color:
+                                                    Colors.deepPurple.shade300,
                                                 child: Container(
                                                   height: 100,
                                                   width: 220,
-                                                  padding: const EdgeInsets.all(10),
+                                                  padding:
+                                                      const EdgeInsets.all(10),
                                                   child: Center(
                                                     child: StreamBuilder(
-                                                      stream:
-                                                          userRepo.getAllUserStream(),
-                                                      builder: (context, snapshot) {
+                                                      stream: userRepo
+                                                          .getAllUserStream(),
+                                                      builder:
+                                                          (context, snapshot) {
                                                         if (snapshot.hasData) {
-                                                          QuerySnapshot qs = snapshot.data
-                                                              as QuerySnapshot;
+                                                          QuerySnapshot qs =
+                                                              snapshot.data
+                                                                  as QuerySnapshot;
                                                           // print(snapshot);
-                                                          if (qs.docs.isNotEmpty) {
+                                                          if (qs.docs
+                                                              .isNotEmpty) {
                                                             return Text(
-                                                              '${qs.docs.length}',
-                                                              style: const TextStyle(
-                                                              fontSize: 28,
-                                                              fontWeight: FontWeight.w700,
-                                                              color: Colors.white));
+                                                                '${qs.docs.length}',
+                                                                style: const TextStyle(
+                                                                    fontSize:
+                                                                        28,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w700,
+                                                                    color: Colors
+                                                                        .white));
                                                           } else {
                                                             print('emtyyyyyy');
                                                             return const Text(
-                                                              '0',
-                                                              style: TextStyle(
-                                                              fontSize: 28,
-                                                              fontWeight: FontWeight.w700,
-                                                              color: Colors.white));
+                                                                '0',
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        28,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w700,
+                                                                    color: Colors
+                                                                        .white));
                                                           }
-                                                        } else if (snapshot.hasError) {
+                                                        } else if (snapshot
+                                                            .hasError) {
                                                           print(snapshot.error);
                                                           return const Center(
-                                                            child: Text('Error'),
+                                                            child:
+                                                                Text('Error'),
                                                           );
                                                         } else {
                                                           return const Center(
@@ -209,51 +251,69 @@ class _WebDashboardState extends State<WebDashboard> {
                                             ],
                                           ),
                                           Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
-                                              Text(
-                                                'Total Products',
-                                                style: TextStyle(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.orange.shade400)),
-                                              const SizedBox(height: 5,),
+                                              Text('Total Products',
+                                                  style: TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: Colors
+                                                          .orange.shade400)),
+                                              const SizedBox(
+                                                height: 5,
+                                              ),
                                               Card(
                                                 elevation: 6,
                                                 color: Colors.orange.shade300,
                                                 child: Container(
                                                   height: 100,
                                                   width: 220,
-                                                  padding: const EdgeInsets.all(10),
+                                                  padding:
+                                                      const EdgeInsets.all(10),
                                                   child: Center(
                                                     child: StreamBuilder(
-                                                      stream:
-                                                          productRepo.getAllProductsStream(),
-                                                      builder: (context, snapshot) {
+                                                      stream: productRepo
+                                                          .getAllProductsStream(),
+                                                      builder:
+                                                          (context, snapshot) {
                                                         if (snapshot.hasData) {
-                                                          QuerySnapshot qs = snapshot.data
-                                                              as QuerySnapshot;
+                                                          QuerySnapshot qs =
+                                                              snapshot.data
+                                                                  as QuerySnapshot;
                                                           // print(snapshot);
-                                                          if (qs.docs.isNotEmpty) {
+                                                          if (qs.docs
+                                                              .isNotEmpty) {
                                                             return Text(
-                                                              '${qs.docs.length}',
-                                                              style: const TextStyle(
-                                                              fontSize: 28,
-                                                              fontWeight: FontWeight.w700,
-                                                              color: Colors.white));
+                                                                '${qs.docs.length}',
+                                                                style: const TextStyle(
+                                                                    fontSize:
+                                                                        28,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w700,
+                                                                    color: Colors
+                                                                        .white));
                                                           } else {
                                                             print('emtyyyyyy');
                                                             return const Text(
-                                                              '0',
-                                                              style: TextStyle(
-                                                              fontSize: 28,
-                                                              fontWeight: FontWeight.w700,
-                                                              color: Colors.white));
+                                                                '0',
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        28,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w700,
+                                                                    color: Colors
+                                                                        .white));
                                                           }
-                                                        } else if (snapshot.hasError) {
+                                                        } else if (snapshot
+                                                            .hasError) {
                                                           print(snapshot.error);
                                                           return const Center(
-                                                            child: Text('Error'),
+                                                            child:
+                                                                Text('Error'),
                                                           );
                                                         } else {
                                                           return const Center(
@@ -269,51 +329,69 @@ class _WebDashboardState extends State<WebDashboard> {
                                             ],
                                           ),
                                           Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
-                                                Text(
-                                                'Total Videos',
-                                                style: TextStyle(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.blue.shade400)),
-                                              const SizedBox(height: 5,),
+                                              Text('Total Videos',
+                                                  style: TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: Colors
+                                                          .blue.shade400)),
+                                              const SizedBox(
+                                                height: 5,
+                                              ),
                                               Card(
                                                 elevation: 6,
                                                 color: Colors.blue.shade300,
                                                 child: Container(
                                                   height: 100,
                                                   width: 220,
-                                                  padding: const EdgeInsets.all(10),
+                                                  padding:
+                                                      const EdgeInsets.all(10),
                                                   child: Center(
                                                     child: StreamBuilder(
-                                                      stream:
-                                                          videoRepo.getAllVideosStream(),
-                                                      builder: (context, snapshot) {
+                                                      stream: videoRepo
+                                                          .getAllVideosStream(),
+                                                      builder:
+                                                          (context, snapshot) {
                                                         if (snapshot.hasData) {
-                                                          QuerySnapshot qs = snapshot.data
-                                                              as QuerySnapshot;
+                                                          QuerySnapshot qs =
+                                                              snapshot.data
+                                                                  as QuerySnapshot;
                                                           // print(snapshot);
-                                                          if (qs.docs.isNotEmpty) {
+                                                          if (qs.docs
+                                                              .isNotEmpty) {
                                                             return Text(
-                                                              '${qs.docs.length}',
-                                                              style: const TextStyle(
-                                                              fontSize: 28,
-                                                              fontWeight: FontWeight.w700,
-                                                              color: Colors.white));
+                                                                '${qs.docs.length}',
+                                                                style: const TextStyle(
+                                                                    fontSize:
+                                                                        28,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w700,
+                                                                    color: Colors
+                                                                        .white));
                                                           } else {
                                                             print('emtyyyyyy');
                                                             return const Text(
-                                                              '0',
-                                                              style: TextStyle(
-                                                              fontSize: 28,
-                                                              fontWeight: FontWeight.w700,
-                                                              color: Colors.white));
+                                                                '0',
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        28,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w700,
+                                                                    color: Colors
+                                                                        .white));
                                                           }
-                                                        } else if (snapshot.hasError) {
+                                                        } else if (snapshot
+                                                            .hasError) {
                                                           print(snapshot.error);
                                                           return const Center(
-                                                            child: Text('Error'),
+                                                            child:
+                                                                Text('Error'),
                                                           );
                                                         } else {
                                                           return const Center(
@@ -328,7 +406,6 @@ class _WebDashboardState extends State<WebDashboard> {
                                               ),
                                             ],
                                           ),
-                                          
                                         ],
                                       ),
                                     ),
@@ -337,7 +414,8 @@ class _WebDashboardState extends State<WebDashboard> {
                                     ),
                                     // --------------------- orders overview
                                     const Padding(
-                                      padding: EdgeInsets.symmetric(horizontal: 80),
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 80),
                                       child: Text(
                                         'Orders Overview',
                                         style: TextStyle(
@@ -350,84 +428,106 @@ class _WebDashboardState extends State<WebDashboard> {
                                       height: 10,
                                     ),
                                     Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 80),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 80),
                                       child: Card(
                                         elevation: 6,
                                         child: Container(
                                           height: 300,
                                           // padding: const EdgeInsets.all(10),
                                           decoration: BoxDecoration(
-                                            color: AppColors.baseBackgroundColor,
+                                            color:
+                                                AppColors.baseBackgroundColor,
                                             // border: Border.all(
                                             //     width: 2, color: Colors.blueGrey),
-                                            borderRadius: BorderRadius.circular(4),
+                                            borderRadius:
+                                                BorderRadius.circular(4),
                                           ),
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              Container(
-                                                decoration: BoxDecoration(
-                                                    color: Colors.blueGrey.shade100,
-                                                    borderRadius:
-                                                        const BorderRadius.only(
-                                                            topLeft:
-                                                                Radius.circular(4),
-                                                            topRight:
-                                                                Radius.circular(4))
-                                                    ),
-                                                child: getTableRow('Phone Number',
-                                                    'Delivery Address', 'Status'),
-                                              ),
-                                              StreamBuilder(
-                                                stream:
-                                                    orderRepo.getAllOrdersStream(),
-                                                builder: (context, snapshot) {
-                                                  if (snapshot.hasData) {
-                                                    QuerySnapshot qs = snapshot.data
-                                                        as QuerySnapshot;
-                                                    // print(snapshot);
-                                                    if (qs.docs.isNotEmpty) {
-                                                      return Container(
-                                                        height: 250,
-                                                        child: ListView.builder(
-                                                            shrinkWrap: true,
-                                                            itemCount: qs.docs.length,
-                                                            itemBuilder:
-                                                                (context, index) {
-                                                              print(qs.docs[index]
-                                                                  .data());
-                                                              Order _order =
-                                                                  Order.fromJson(qs
-                                                                          .docs[index]
-                                                                          .data()
-                                                                      as Map<String,
-                                                                          dynamic>);
-                                                                      
-                                                              return getTableRow(
-                                                                  _order.phoneNumber!,
-                                                                  _order
-                                                                      .deliveryAddress!,
-                                                                  _order.status!);
-                                                            }),
+                                          child: SingleChildScrollView(
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.max,
+                                              children: [
+                                                Container(
+                                                  decoration: BoxDecoration(
+                                                      color: Colors
+                                                          .blueGrey.shade100,
+                                                      borderRadius:
+                                                          const BorderRadius.only(
+                                                              topLeft:
+                                                                  Radius.circular(
+                                                                      4),
+                                                              topRight:
+                                                                  Radius.circular(
+                                                                      4))),
+                                                  child: getTableRow(
+                                                      'Phone Number',
+                                                      'Delivery Address',
+                                                      'Status'),
+                                                ),
+                                                StreamBuilder(
+                                                  stream: orderRepo
+                                                      .getAllOrdersStream(),
+                                                  builder: (context, snapshot) {
+                                                    if (snapshot.hasData) {
+                                                      QuerySnapshot qs = snapshot
+                                                          .data as QuerySnapshot;
+                                                      // print(snapshot);
+                                                      if (qs.docs.isNotEmpty) {
+                                                        return Container(
+                                                          // height: 250,
+                                                          child: ListView.builder(
+                                                            physics: NeverScrollableScrollPhysics(),
+                                                              shrinkWrap: true,
+                                                              itemCount:
+                                                                  qs.docs.length,
+                                                              itemBuilder:
+                                                                  (context,
+                                                                      index) {
+                                                                print(qs
+                                                                    .docs[index]
+                                                                    .data());
+                                                                Order _order = Order
+                                                                    .fromJson(qs
+                                                                            .docs[
+                                                                                index]
+                                                                            .data()
+                                                                        as Map<
+                                                                            String,
+                                                                            dynamic>);
+                                          
+                                                                return getTableRow(
+                                                                    _order
+                                                                        .phoneNumber!,
+                                                                    _order
+                                                                        .deliveryAddress!,
+                                                                    _order
+                                                                        .status!);
+                                                              }),
+                                                        );
+                                                      } else {
+                                                        print('emtyyyyyy');
+                                                        return Container();
+                                                      }
+                                                    } else if (snapshot
+                                                        .hasError) {
+                                                      print(snapshot.error);
+                                                      return const Center(
+                                                        child: Text('Error'),
                                                       );
                                                     } else {
-                                                      print('emtyyyyyy');
-                                                      return Container();
+                                                      return SizedBox(
+                                                        height: MediaQuery.of(context).size.height,
+                                                        width: MediaQuery.of(context).size.width,
+                                                        child: const Center(
+                                                          child:
+                                                              CircularProgressIndicator(),
+                                                        ),
+                                                      );
                                                     }
-                                                  } else if (snapshot.hasError) {
-                                                    print(snapshot.error);
-                                                    return const Center(
-                                                      child: Text('Error'),
-                                                    );
-                                                  } else {
-                                                    return const Center(
-                                                      child:
-                                                          CircularProgressIndicator(),
-                                                    );
-                                                  }
-                                                },
-                                              ),
-                                            ],
+                                                  },
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -436,7 +536,8 @@ class _WebDashboardState extends State<WebDashboard> {
                                       height: 20,
                                     ),
                                     const Padding(
-                                      padding: EdgeInsets.symmetric(horizontal: 80),
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 80),
                                       child: Text(
                                         'Users Overview',
                                         style: TextStyle(
@@ -449,87 +550,110 @@ class _WebDashboardState extends State<WebDashboard> {
                                       height: 10,
                                     ),
                                     Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 80),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 80),
                                       child: Card(
                                         elevation: 6,
                                         child: Container(
                                           height: 300,
-                                            // padding: const EdgeInsets.all(10),
-                                            decoration: BoxDecoration(
-                                              color: AppColors.baseBackgroundColor,
-                                              // border: Border.all(
-                                              //     width: 2, color: Colors.blueGrey),
-                                              borderRadius: BorderRadius.circular(4),
-                                            ),
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              Container(
-                                                decoration: BoxDecoration(
-                                                    color: Colors.blueGrey.shade100,
-                                                    borderRadius:
-                                                        const BorderRadius.only(
-                                                            topLeft:
-                                                                Radius.circular(4),
-                                                            topRight:
-                                                                Radius.circular(
-                                                                    4))),
-                                                child: getTableRow(
-                                                    'Name',
-                                                    'Phone number',
-                                                    'Last location'),
-                                              ),
-                                              StreamBuilder(
-                                                stream: userRepo.getAllUserStream(),
-                                                builder: (context, snapshot) {
-                                                  if (snapshot.hasData) {
-                                                    QuerySnapshot qs = snapshot.data
-                                                        as QuerySnapshot;
-                                                    // print(snapshot);
-                                                    if (qs.docs.isNotEmpty) {
-                                                      return Container(
-                                                        height: 250,
-                                                        child: ListView.builder(
+                                          // padding: const EdgeInsets.all(10),
+                                          decoration: BoxDecoration(
+                                            color:
+                                                AppColors.baseBackgroundColor,
+                                            // border: Border.all(
+                                            //     width: 2, color: Colors.blueGrey),
+                                            borderRadius:
+                                                BorderRadius.circular(4),
+                                          ),
+                                          child: SingleChildScrollView(
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Container(
+                                                  decoration: BoxDecoration(
+                                                      color: Colors
+                                                          .blueGrey.shade100,
+                                                      borderRadius:
+                                                          const BorderRadius.only(
+                                                              topLeft:
+                                                                  Radius.circular(
+                                                                      4),
+                                                              topRight:
+                                                                  Radius.circular(
+                                                                      4))),
+                                                  child: getTableRow(
+                                                      'Name',
+                                                      'Phone number',
+                                                      'Last location'),
+                                                ),
+                                                StreamBuilder(
+                                                  stream:
+                                                      userRepo.getAllUserStream(),
+                                                  builder: (context, snapshot) {
+                                                    if (snapshot.hasData) {
+                                                      QuerySnapshot qs = snapshot
+                                                          .data as QuerySnapshot;
+                                                      // print(snapshot);
+                                                      if (qs.docs.isNotEmpty) {
+                                                        return ListView.builder(
+                                                          physics: const NeverScrollableScrollPhysics(),
                                                             shrinkWrap: true,
-                                                            itemCount: qs.docs.length,
+                                                            itemCount:
+                                                                qs.docs.length,
                                                             itemBuilder:
-                                                                (context, index) {
-                                                              print(qs.docs[index]
+                                                                (context,
+                                                                    index) {
+                                                              print(qs
+                                                                  .docs[index]
                                                                   .data());
-                                                              User _user =
-                                                                  User.fromJson(qs
-                                                                          .docs[index]
-                                                                          .data()
-                                                                      as Map<String,
-                                                                          dynamic>);
-                                                                    
-                                                              return getTableRow(
-                                                                  _user.firstName! +
-                                                                      ' ' +
-                                                                      _user.lastName!,
-                                                                  _user.phoneNumber!,
-                                                                  getLocationString(_user
-                                                                      .lastLocation!));
-                                                            }),
+                                                              User? _user;
+                                                              try {
+                                                                _user = User.fromJson(qs
+                                                                        .docs[index]
+                                                                        .data()
+                                                                    as Map<
+                                                                        String,
+                                                                        dynamic>);
+                                                              } catch (e, s) {
+                                                                print(e);
+                                                                print(s);
+                                                              }
+                                                              if (_user !=
+                                                                  null) {
+                                                                return getTableRow(
+                                                                    _user.firstName! +
+                                                                        ' ' +
+                                                                        _user
+                                                                            .lastName!,
+                                                                    _user
+                                                                        .phoneNumber!,
+                                                                    getLocationString(
+                                                                        _user
+                                                                            .lastLocation!));
+                                                              } else {
+                                                                return const SizedBox();
+                                                              }
+                                                            });
+                                                      } else {
+                                                        print('emtyyyyyy');
+                                                        return Container();
+                                                      }
+                                                    } else if (snapshot
+                                                        .hasError) {
+                                                      print(snapshot.error);
+                                                      return const Center(
+                                                        child: Text('Error'),
                                                       );
                                                     } else {
-                                                      print('emtyyyyyy');
-                                                      return Container();
+                                                      return const Center(
+                                                        child:
+                                                            CircularProgressIndicator(),
+                                                      );
                                                     }
-                                                  } else if (snapshot.hasError) {
-                                                    print(snapshot.error);
-                                                    return const Center(
-                                                      child: Text('Error'),
-                                                    );
-                                                  } else {
-                                                    return const Center(
-                                                      child:
-                                                          CircularProgressIndicator(),
-                                                    );
-                                                  }
-                                                },
-                                              ),
-                                            ],
+                                                  },
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ),
                                       ),

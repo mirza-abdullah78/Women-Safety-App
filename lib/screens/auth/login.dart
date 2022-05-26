@@ -37,7 +37,7 @@ class _LoginPageState extends State<LoginPage> {
     if (form!.validate()) {
       print('-------- data validated ---------');
       form.save();
-      User newUser = User('', firstName, lastName, phoneNumber, {}, '',{'police':'1111','ambulance':'1111'},false,false,email!,'');
+      User newUser = User( firstName:firstName, lastName:lastName, phoneNumber:phoneNumber, trusties: {}, profilePhoto:'',emergencyContacts: {'police':'1111','ambulance':'1111'},isAdmin:false,isBlocked: false,email:email,defaultTrusty: '');
       print(newUser.toJson());
       await authRepo.signUpWithEmail(
           email: email!,

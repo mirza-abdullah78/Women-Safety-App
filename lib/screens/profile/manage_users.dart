@@ -158,7 +158,7 @@ class _ManageUsersScreenState extends State<ManageUsersScreen> {
                               gridDelegate:
                                   const SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 4,
-                                mainAxisExtent: 220,
+                                mainAxisExtent: 180,
                                 crossAxisSpacing: 20,
                                 mainAxisSpacing: 20,
                               ),
@@ -178,6 +178,7 @@ class _ManageUsersScreenState extends State<ManageUsersScreen> {
                                   child: Padding(
                                     padding: const EdgeInsets.all(10),
                                     child: Column(
+                                      mainAxisSize: MainAxisSize.min,
                                       children: [
                                         Row(
                                           mainAxisAlignment:
@@ -260,7 +261,7 @@ class _ManageUsersScreenState extends State<ManageUsersScreen> {
                                                   fontWeight: FontWeight.bold  ),
                                             ),
                                             Text(
-                                              user.isBlocked
+                                              user.isBlocked!
                                                   ? 'Block'
                                                   : 'Unblock',
                                               style: const TextStyle(
@@ -281,20 +282,20 @@ class _ManageUsersScreenState extends State<ManageUsersScreen> {
                                                 onPressed: () {
                                                   userRepo.updateBlockStatus(
                                                       user.id!,
-                                                      !user.isBlocked);
+                                                      !user.isBlocked!);
                                                 },
                                                 style: ButtonStyle(
                                                     backgroundColor:
                                                         MaterialStateProperty
-                                                            .all(!user.isBlocked
+                                                            .all(!user.isBlocked!
                                                                 ? Colors.red
                                                                     .shade300
                                                                 : Colors.green
                                                                     .shade300)),
-                                                child: Center(
-                                                  child: Text(user.isBlocked
+                                                child: Center( //  update
+                                                  child: Text(user.isBlocked!
                                                       ? 'Unblock'
-                                                      : 'Block'),
+                                                      : 'Block'), 
                                                 ),
                                               ),
                                             ),
@@ -315,6 +316,7 @@ class _ManageUsersScreenState extends State<ManageUsersScreen> {
                                     ),
                                   ),
                                 );
+                              
                               }),
                         ],
                       );
