@@ -80,7 +80,7 @@ class _OrdersHistoryScreenState extends State<OrdersHistoryScreen> {
                                   style: TextStyle(color: Colors.white),
                                 ),
                                 Text(
-                                  order.deliveryAddress!,
+                                  '${order.deliveryAddress!['streetAddress']}, ${order.deliveryAddress!['province']}, ${order.deliveryAddress!['country']}',
                                   style: const TextStyle(color: Colors.white),
                                 ),
                               ],

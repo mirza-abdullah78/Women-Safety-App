@@ -498,8 +498,7 @@ class _WebDashboardState extends State<WebDashboard> {
                                                                 return getTableRow(
                                                                     _order
                                                                         .phoneNumber!,
-                                                                    _order
-                                                                        .deliveryAddress!,
+                                                                    '${_order.deliveryAddress!['streetAddress']}, ${_order.deliveryAddress!['province']}, ${_order.deliveryAddress!['country']}',
                                                                     _order
                                                                         .status!);
                                                               }),

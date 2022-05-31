@@ -16,7 +16,7 @@ class CartScreen extends StatefulWidget {
 
 class _CartScreenState extends State<CartScreen> {
   bool isCOD = true;
-  String? address, phoneNumber;
+  String? address,province,country, phoneNumber;
   int total = 0;
   final formKey = GlobalKey<FormState>();
   removeFromCart(StoreProduct product) {
@@ -37,6 +37,7 @@ class _CartScreenState extends State<CartScreen> {
           return Container(
             padding: EdgeInsets.only(
                 bottom: MediaQuery.of(context).viewInsets.bottom),
+            width: MediaQuery.of(context).size.width,
             decoration: const BoxDecoration(
                 borderRadius: BorderRadius.only(
               topLeft: Radius.circular(25),
@@ -50,8 +51,8 @@ class _CartScreenState extends State<CartScreen> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     CustomTextField(
-                      label: 'Address',
-                      hint: 'Enter address',
+                      label: 'Street Address',
+                      hint: 'Enter street address',
                       onSaved: (v) {
                         if (v != null) {
                           address = v.trim();
@@ -64,6 +65,49 @@ class _CartScreenState extends State<CartScreen> {
                           return null;
                         }
                       },
+                    ),
+                    const SizedBox(height: 10),
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Expanded(
+                          child: CustomTextField(
+                            label: 'Province',
+                            hint: 'Enter Province',
+                            onSaved: (v) {
+                              if (v != null) {
+                                province = v.trim();
+                              }
+                            },
+                            onValitdate: (v) {
+                              if (v == null || v.isEmpty) {
+                                return 'Field cannot be null';
+                              } else {
+                                return null;
+                              }
+                            },
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: CustomTextField(
+                            label: 'Country',
+                            hint: 'Enter Country',
+                            onSaved: (v) {
+                              if (v != null) {
+                                country = v.trim();
+                              }
+                            },
+                            onValitdate: (v) {
+                              if (v == null || v.isEmpty) {
+                                return 'Field cannot be null';
+                              } else {
+                                return null;
+                              }
+                            },
+                          ),
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 10),
                     CustomTextField(
@@ -104,7 +148,11 @@ class _CartScreenState extends State<CartScreen> {
                             }
                             Order order = Order(
                                 phoneNumber,
-                                address,
+                                {
+                                  'streetAddress':address,
+                                  'province':province,
+                                  'country': country
+                                },
                                 isCOD,
                                 {
                                   'id': currentUserGlobal!.id!,

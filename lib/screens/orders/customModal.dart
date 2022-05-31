@@ -83,7 +83,7 @@ showOrderDetailsModal(BuildContext context, Order order) {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         getRow(
-                            'Delivery:', order.deliveryAddress!, Colors.black),
+                            'Delivery:', '${order.deliveryAddress!['streetAddress']}, ${order.deliveryAddress!['province']}, ${order.deliveryAddress!['country']}', Colors.black),
                         const SizedBox(
                           height: 10,
                         ),

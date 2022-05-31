@@ -1,12 +1,13 @@
 class Order {
-  String? id, phoneNumber, deliveryAddress,status;
+  String? id, phoneNumber, status;
+  Map? deliveryAddress;
   bool? isCOD;
   Map? orderBy;
-  int? total,orderNumber;
+  int? total, orderNumber;
   List products;
 
-  Order(this.phoneNumber, this.deliveryAddress, this.isCOD, this.orderBy,this.status,
-      this.products, this.total);
+  Order(this.phoneNumber, this.deliveryAddress, this.isCOD, this.orderBy,
+      this.status, this.products, this.total);
 
   Map<String, dynamic> toJson() => {
         '_id': id,
@@ -24,7 +25,11 @@ class Order {
       : id = jsonData['_id'],
         orderNumber = jsonData['orderNumber'],
         phoneNumber = jsonData['phoneNumber'],
-        deliveryAddress = jsonData['deliveryAddress'],
+        deliveryAddress = jsonData['deliveryAddress'].runtimeType == String? {
+          'streetAddress': jsonData['deliveryAddress'],
+          'province': 'Punjab',
+          'country': 'Pakistan'
+        }:jsonData['deliveryAddress'],
         isCOD = jsonData['isCOD'],
         orderBy = jsonData['orderBy'],
         status = jsonData['status'],

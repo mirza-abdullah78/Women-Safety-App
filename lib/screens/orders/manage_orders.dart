@@ -235,7 +235,7 @@ class _ManageOrdersScreenState extends State<ManageOrdersScreen> {
                                                   TextStyle(color: Colors.white),
                                             ),
                                             Text(
-                                              _order.deliveryAddress!,
+                                              '${_order.deliveryAddress!['streetAddress']}, ${_order.deliveryAddress!['province']}, ${_order.deliveryAddress!['country']}',
                                               style: const TextStyle(
                                                   color: Colors.white),
                                             ),
