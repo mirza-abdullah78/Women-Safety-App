@@ -10,6 +10,7 @@ import 'package:women_safety_app/screens/store/cart_screen.dart';
 import 'package:women_safety_app/screens/store/custom_form.dart';
 import 'package:women_safety_app/screens/store/product_details.dart';
 import 'package:women_safety_app/utils/globals.dart';
+import 'package:women_safety_app/utils/utils.dart';
 
 class StoreScreen extends StatefulWidget {
   StoreScreen({Key? key}) : super(key: key);
@@ -186,12 +187,21 @@ class _StoreScreenState extends State<StoreScreen> {
                                   }
                                   double averageReview =
                                       totalValue / _product.reviews!.length;
-                                  average = averageReview>0? averageReview.floor():0;
+                                  average = averageReview > 0
+                                      ? averageReview.floor()
+                                      : 0;
                                 }
                                 return InkWell(
-                                  onTap: () => showModalBottomSheet(context: context,isScrollControlled: true, builder: (context) => ProductDetails(product: _product,)),
+                                  onTap: () => showModalBottomSheet(
+                                      context: context,
+                                      isScrollControlled: true,
+                                      builder: (context) => ProductDetails(
+                                            product: _product,
+                                          )),
                                   child: Card(
-                                    color: _product.isDisable?Colors.blueGrey.shade50:Colors.white,
+                                    color: _product.isDisable
+                                        ? Colors.blueGrey.shade50
+                                        : Colors.white,
                                     elevation: 6,
                                     child: GridTile(
                                         child: Padding(
@@ -219,11 +229,11 @@ class _StoreScreenState extends State<StoreScreen> {
                                           const SizedBox(
                                             height: 5,
                                           ),
-                                          Text(_product.title!.toUpperCase(),
+                                          Text(
+                                            _product.title!.toUpperCase(),
                                             style: const TextStyle(
                                                 fontWeight: FontWeight.bold,
-                                                color: Colors.blueGrey
-                                              ), 
+                                                color: Colors.blueGrey),
                                           ),
                                           const SizedBox(
                                             height: 5,
@@ -231,39 +241,38 @@ class _StoreScreenState extends State<StoreScreen> {
                                           // if (kIsWeb) Text(_product.articleId!,
                                           //   style: const TextStyle(
                                           //       fontWeight: FontWeight.bold
-                                          //     ), 
+                                          //     ),
                                           // ),
                                           // if (kIsWeb)
                                           //   const SizedBox(
                                           //     height: 5,
                                           //   ),
-                                          Text('Rs. ${_product.price!}',
+                                          Text(
+                                            'Rs. ${_product.price!}',
                                             style: const TextStyle(
                                                 fontWeight: FontWeight.bold,
-                                                color: Colors.blueGrey
-                                              ), 
+                                                color: Colors.blueGrey),
                                           ),
                                           const SizedBox(
                                             height: 5,
                                           ),
                                           if (kIsWeb)
                                             Text(
-                                                'Total Sold ${_product.totalOrders!.length}',
+                                              'Total Sold ${_product.totalOrders!.length}',
                                               style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.blueGrey
-                                              ),    
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.blueGrey),
                                             ),
                                           if (kIsWeb)
                                             const SizedBox(
                                               height: 5,
                                             ),
                                           Text(
-                                              'Reviews(${_product.reviews?.length ?? 0}): $average/10',
-                                              style: const TextStyle(
+                                            'Reviews(${_product.reviews?.length ?? 0}): $average/10',
+                                            style: const TextStyle(
                                                 fontWeight: FontWeight.bold,
-                                                color: Colors.blueGrey
-                                              ), ),
+                                                color: Colors.blueGrey),
+                                          ),
                                           const SizedBox(
                                             height: 5,
                                           ),
@@ -274,6 +283,8 @@ class _StoreScreenState extends State<StoreScreen> {
                                                 } else {
                                                   if (_product.quantity! > 0) {
                                                     addToCart(_product);
+                                                    showSnackBar(context,
+                                                        'Product Added');
                                                     print(cart);
                                                   }
                                                 }
